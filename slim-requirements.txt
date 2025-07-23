@@ -4,5 +4,5 @@ litellm==1.74.7
 pillow==11.3.0
 requests==2.32.4
 mcp==1.12.1
-strands-agents==0.2.1
+strands-agents==0.3.0
 strands-agents-tools==0.2.1
