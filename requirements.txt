@@ -18,4 +18,4 @@ orjson==3.11.2
 websockets==15.0.1
 
 # workaround for https://github.com/BerriAI/litellm/issues/13710
-openai==1.99.9
+openai==1.100.2
