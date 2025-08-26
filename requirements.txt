@@ -14,5 +14,5 @@ cryptography==45.0.6
 email-validator==2.2.0
 fastapi==0.116.1
 fastapi-sso==0.18.0
-orjson==3.11.2
+orjson==3.11.3
 websockets==15.0.1
