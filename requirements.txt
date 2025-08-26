@@ -11,7 +11,7 @@ strands-agents-tools==0.2.4
 apscheduler==3.11.0
 backoff==2.2.1
 cryptography==45.0.6
-email-validator==2.2.0
+email-validator==2.3.0
 fastapi==0.116.1
 fastapi-sso==0.18.0
 orjson==3.11.2
