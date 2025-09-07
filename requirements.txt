@@ -10,7 +10,7 @@ strands-agents-tools==0.2.5
 # workaround for https://github.com/BerriAI/litellm/issues/13081
 apscheduler==3.11.0
 backoff==2.2.1
-cryptography==45.0.6
+cryptography==45.0.7
 email-validator==2.2.0
 fastapi==0.116.1
 fastapi-sso==0.18.0
