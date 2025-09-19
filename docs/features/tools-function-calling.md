@@ -19,7 +19,7 @@ OPENAI_API_KEY=sk-...
 LITELLM_MODEL=gpt-4o
 LITELLM_TOOLS_MODULE_NAME=examples.tools
 
-$ docker run -it --env-file ./env -v ./examples:/app/examples ghcr.io/iwamot/collmbo:latest
+$ docker run -it --env-file ./env -v ./examples:/app/examples ghcr.io/enechange/collmbo:latest
 ```
 
 > ![Tools example](https://github.com/user-attachments/assets/d48a44fd-56fa-43c7-a0de-567ba03088b5)

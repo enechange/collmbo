@@ -12,7 +12,7 @@ ANTHROPIC_API_KEY=sk-ant-...
 LITELLM_MODEL=claude-3-7-sonnet-20250219
 PROMPT_CACHING_ENABLED=true
 
-$ docker run -it --env-file ./env ghcr.io/iwamot/collmbo:latest
+$ docker run -it --env-file ./env ghcr.io/enechange/collmbo:latest
 ```
 
 When enabled, cache breakpoints will automatically be added to **the two most recent user messages** when the total context size is 1,024 tokens or more. This may help reduce API costs.
