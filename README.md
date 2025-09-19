@@ -1,7 +1,7 @@
 # Collmbo
 
-[![CI](https://github.com/iwamot/collmbo/actions/workflows/ci.yml/badge.svg)](https://github.com/iwamot/collmbo/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/iwamot/collmbo/branch/main/graph/badge.svg)](https://app.codecov.io/gh/iwamot/collmbo)
+[![CI](https://github.com/enechange/collmbo/actions/workflows/ci.yml/badge.svg)](https://github.com/enechange/collmbo/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/enechange/collmbo/branch/main/graph/badge.svg)](https://app.codecov.io/gh/enechange/collmbo)
 
 ![Collmbo icon](https://github.com/user-attachments/assets/b13da1c7-5d2f-4ad3-8c5b-9ef4e500deb8)
 
@@ -36,12 +36,12 @@ OPENAI_API_KEY=sk-...
 Start the bot using Docker:
 
 ```sh
-docker run -it --env-file .env ghcr.io/iwamot/collmbo:latest
+docker run -it --env-file .env ghcr.io/enechange/collmbo:latest
 ```
 
 > [!NOTE]
 >
-> For versioned releases, you can specify a tag like `x.x.x`. For more details, please check the [list of available tags](https://github.com/iwamot/collmbo/pkgs/container/collmbo/versions?filters%5Bversion_type%5D=tagged).
+> For versioned releases, you can specify a tag like `x.x.x`. For more details, please check the [list of available tags](https://github.com/enechange/collmbo/pkgs/container/collmbo/versions?filters%5Bversion_type%5D=tagged).
 
 ### 4. Say Hello!
 

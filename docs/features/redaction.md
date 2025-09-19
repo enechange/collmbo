@@ -20,7 +20,7 @@ REDACT_USER_DEFINED_PATTERN=\bsensitive string\b
 # Here, logging is enabled to check the effect of redaction
 LITELLM_CALLBACK_MODULE_NAME=examples.callback_handler
 
-$ docker run -it --env-file ./env -v ./examples:/app/examples ghcr.io/iwamot/collmbo:latest
+$ docker run -it --env-file ./env -v ./examples:/app/examples ghcr.io/enechange/collmbo:latest
 ```
 
 Sensitive strings in the message will be masked before being sent to the model.

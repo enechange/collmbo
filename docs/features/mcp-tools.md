@@ -63,7 +63,7 @@ LITELLM_MODEL=gpt-4o
 AWS_ACCESS_KEY_ID=...
 AWS_SECRET_ACCESS_KEY=...
 
-$ docker run -it --env-file ./env -v ./config:/app/config ghcr.io/iwamot/collmbo:latest
+$ docker run -it --env-file ./env -v ./config:/app/config ghcr.io/enechange/collmbo:latest
 ```
 
 `workload_name` will be used as a name for [AgentCore Identity workload](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/creating-agent-identities.html).
