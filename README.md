@@ -121,15 +121,9 @@ Collmbo runs with default settings, but you can customize its behavior by [setti
 
 ## Contributing
 
-Contributions are welcome! Feel free to open an issue or submit a pull request.
+Contributions are welcome! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
-Before opening a PR, please run:
-
-```sh
-./validate.sh
-```
-
-This helps maintain code quality.
+All commits must be signed with DCO (`git commit -s`).
 
 ## Related Projects
 
