@@ -10,7 +10,7 @@ strands-agents-tools==0.2.8
 
 # avoid fastuuid dependency
 # see: https://github.com/BerriAI/litellm/issues/14145
-litellm==1.76.0
+litellm==1.77.5
 
 # workaround for https://github.com/BerriAI/litellm/issues/13081
 apscheduler
