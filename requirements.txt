@@ -6,7 +6,7 @@ bedrock-agentcore==0.1.5
 mcp==1.15.0
 pytz==2025.2
 strands-agents==1.9.1
-strands-agents-tools==0.2.8
+strands-agents-tools==0.2.9
 
 # avoid fastuuid dependency
 # see: https://github.com/BerriAI/litellm/issues/14145
