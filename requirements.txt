@@ -1,5 +1,6 @@
 slack-bolt==1.25.0
 slack-sdk==3.36.0
+litellm==1.77.5
 pillow==11.3.0
 requests==2.32.5
 bedrock-agentcore==0.1.5
@@ -7,10 +8,6 @@ mcp==1.15.0
 pytz==2025.2
 strands-agents==1.10.0
 strands-agents-tools==0.2.9
-
-# avoid fastuuid dependency
-# see: https://github.com/BerriAI/litellm/issues/14145
-litellm==1.77.5
 
 # workaround for https://github.com/BerriAI/litellm/issues/13081
 apscheduler
