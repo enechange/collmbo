@@ -44,6 +44,7 @@ from app.mcp.oauth_control_service import (
     disable_user_oauth_session,
     enable_user_oauth_session,
 )
+from app.mcp.oauth_tools_service import expire_old_oauth_sessions
 from app.message_logic import (
     build_assistant_message,
     build_slack_user_prefixed_text,
@@ -555,6 +556,7 @@ def handle_exception(
 def handle_app_home_opened(client: WebClient, event: dict) -> None:
     """
     Handle app_home_opened event to display MCP server information.
+    Also cleans up expired OAuth sessions.
 
     Args:
         client (WebClient): Slack WebClient instance.
@@ -564,6 +566,7 @@ def handle_app_home_opened(client: WebClient, event: dict) -> None:
         None
     """
     user_id = event["user"]
+    expire_old_oauth_sessions(user_id)
     try:
         update_home_tab(client=client, user_id=user_id)
     except Exception as e:
