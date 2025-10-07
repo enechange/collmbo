@@ -61,6 +61,12 @@ def transform_mcp_spec_to_classic_tool(
     """
     parameters = deepcopy(mcp_spec["inputSchema"]["json"])
 
+    # Ensure parameters has required fields for OpenAI API
+    if "type" not in parameters:
+        parameters["type"] = "object"
+    if "properties" not in parameters:
+        parameters["properties"] = {}
+
     # Remove invalid "format" property for Gemini models
     if model.startswith("gemini/"):
         for prop in parameters.get("properties", {}).values():
