@@ -6,7 +6,7 @@ requests==2.32.5
 bedrock-agentcore==0.1.7
 mcp==1.16.0
 pytz==2025.2
-strands-agents==1.10.0
+strands-agents==1.11.0
 strands-agents-tools==0.2.10
 
 # workaround for https://github.com/BerriAI/litellm/issues/13081
