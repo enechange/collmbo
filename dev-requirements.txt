@@ -7,4 +7,3 @@ pytest==8.4.2
 pytest-cov==7.0.0
 types-PyYAML==6.0.12.20250915
 types-pytz==2025.2.0.20250809
-types-requests==2.32.4.20250913
