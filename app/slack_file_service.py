@@ -2,7 +2,7 @@
 This module provides a function to download files from Slack.
 """
 
-import requests
+import httpx
 from slack_sdk.errors import SlackApiError
 
 
@@ -23,9 +23,7 @@ def get_slack_file_content(
     Returns:
         - bytes: The content of the Slack file.
     """
-    response = requests.get(
-        url, headers={"Authorization": f"Bearer {token}"}, timeout=10
-    )
+    response = httpx.get(url, headers={"Authorization": f"Bearer {token}"}, timeout=10)
     if response.status_code != 200:
         raise SlackApiError(
             f"Request to {url} failed with status code {response.status_code}", response
