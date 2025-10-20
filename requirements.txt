@@ -1,6 +1,6 @@
 slack-bolt==1.26.0
 slack-sdk==3.37.0
-litellm==1.78.0
+litellm==1.78.5
 pillow==11.3.0
 httpx==0.28.1
 bedrock-agentcore==1.0.3
