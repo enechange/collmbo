@@ -3,7 +3,7 @@ slack-sdk==3.37.0
 litellm==1.78.6
 pillow==11.3.0
 httpx==0.28.1
-bedrock-agentcore==1.0.3
+bedrock-agentcore==1.0.4
 mcp==1.18.0
 pytz==2025.2
 strands-agents==1.13.0
