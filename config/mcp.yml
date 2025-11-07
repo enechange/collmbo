@@ -1,17 +1,30 @@
-workload_name: Collmbo
-auth_session_duration_minutes: 30
-agentcore_region: us-west-2
+# MCP Server Configuration
+# Configure Model Context Protocol (MCP) servers for Collmbo.
+
+# Global settings for OAuth (optional - only needed for OAuth-enabled servers)
+# Requires Amazon Bedrock AgentCore Identity and oauth-callback-app setup.
+#workload_name: Collmbo
+#auth_session_duration_minutes: 30
+#agentcore_region: us-west-2
+#oauth_callback_url: https://your-callback-app.example.com/callback
+
 servers:
+  # No authentication required
   - name: AWS Knowledge
     url: https://knowledge-mcp.global.api.aws
     auth_type: none
 
-# Example OAuth configuration (requires Amazon Bedrock AgentCore Identity setup)
-# - name: GitHub
-#   url: https://api.githubcopilot.com/mcp/
-#   auth_type: user_federation
-#   scopes:
-#     - repo
-#     - read:packages
-#     - read:org
-#   agentcore_provider: github
+# OAuth examples (requires AgentCore Identity provider setup)
+#  - name: GitHub
+#    url: https://api.githubcopilot.com/mcp/
+#    auth_type: user_federation
+#    scopes:
+#      - repo
+#      - read:packages
+#      - read:org
+#    agentcore_provider: your-github-provider-name
+#
+#  - name: Notion
+#    url: https://mcp.notion.com/mcp
+#    auth_type: user_federation
+#    agentcore_provider: your-notion-provider-name

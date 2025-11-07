@@ -141,6 +141,7 @@ def format_server_display(
 def build_home_tab_blocks(
     mcp_config: dict,
     user_oauth_urls: dict[str, str],
+    user_oauth_verification_codes: dict[str, str],
     user_oauth_sessions: dict[str, dict],
     user_oauth_tools: dict[str, list[dict]],
     user_tz: str,
@@ -152,6 +153,7 @@ def build_home_tab_blocks(
     Args:
         mcp_config (dict): MCP configuration.
         user_oauth_urls (dict): OAuth URLs indexed by server name for the user.
+        user_oauth_verification_codes (dict): OAuth verification codes indexed by server name for the user.
         user_oauth_sessions (dict): User OAuth sessions indexed by server name.
         user_oauth_tools (dict): User OAuth tools indexed by server name.
         user_tz (str): User's timezone string.
@@ -179,6 +181,7 @@ def build_home_tab_blocks(
     for index, server in enumerate(oauth_servers):
         server_name = server["name"]
         auth_url = user_oauth_urls.get(server_name)
+        oauth_verification_code = user_oauth_verification_codes.get(server_name)
         session_data = user_oauth_sessions.get(server_name)
         has_valid_session = server_name in user_oauth_sessions
         has_cached_tools = user_oauth_tools.get(server_name) is not None
@@ -188,6 +191,7 @@ def build_home_tab_blocks(
                 "index": index,
                 "server": server,
                 "auth_url": auth_url,
+                "oauth_verification_code": oauth_verification_code,
                 "session_data": session_data,
                 "has_valid_session": has_valid_session,
                 "has_cached_tools": has_cached_tools,
@@ -259,6 +263,7 @@ def build_oauth_servers_section(mcp_servers: List[dict], user_tz: str) -> List[B
         index = data["index"]
         server = data["server"]
         auth_url = data["auth_url"]
+        oauth_verification_code = data["oauth_verification_code"]
         session_data = data["session_data"]
         has_valid_session = data["has_valid_session"]
         has_cached_tools = data["has_cached_tools"]
@@ -323,11 +328,9 @@ def build_oauth_servers_section(mcp_servers: List[dict], user_tz: str) -> List[B
             )
 
         if auth_url and auth_url != OAUTH_URL_PROCESSING:
-            blocks.append(
-                SectionBlock(
-                    text=MarkdownTextObject(text=f"🔗 <{auth_url}|Click to authorize>")
-                )
-            )
+            oauth_verification_code_display = oauth_verification_code or ""
+            auth_text = f"🔗 <{auth_url}|Click to authorize> / Code: `{oauth_verification_code_display}`"
+            blocks.append(SectionBlock(text=MarkdownTextObject(text=auth_text)))
             blocks.append(
                 ActionsBlock(
                     elements=[
@@ -345,6 +348,7 @@ def build_oauth_servers_section(mcp_servers: List[dict], user_tz: str) -> List[B
 def build_home_tab_view(
     mcp_config: dict,
     user_oauth_urls: dict[str, str],
+    user_oauth_verification_codes: dict[str, str],
     user_oauth_sessions: dict[str, dict],
     user_oauth_tools: dict[str, list[dict]],
     user_tz: str,
@@ -356,6 +360,7 @@ def build_home_tab_view(
     Args:
         mcp_config (dict): MCP configuration.
         user_oauth_urls (dict): OAuth URLs indexed by server name for the user.
+        user_oauth_verification_codes (dict): OAuth verification codes indexed by server name for the user.
         user_oauth_sessions (dict): User OAuth sessions indexed by server name.
         user_oauth_tools (dict): User OAuth tools indexed by server name.
         user_tz (str): User's timezone string.
@@ -367,6 +372,7 @@ def build_home_tab_view(
     blocks = build_home_tab_blocks(
         mcp_config,
         user_oauth_urls,
+        user_oauth_verification_codes,
         user_oauth_sessions,
         user_oauth_tools,
         user_tz,

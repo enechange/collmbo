@@ -17,6 +17,7 @@ from app.mcp.agentcore_service import (
 from app.mcp.config_service import (
     get_agentcore_region,
     get_auth_session_duration_minutes,
+    get_oauth_callback_url,
     get_oauth_server,
     get_workload_name,
 )
@@ -29,6 +30,7 @@ from app.mcp.oauth_tools_service import (
 OAUTH_URL_PROCESSING = "processing"
 
 user_oauth_urls: dict[str, dict[str, str]] = {}
+user_oauth_verification_codes: dict[str, dict[str, str]] = {}
 
 
 def has_running_loop() -> bool:
@@ -64,13 +66,18 @@ def create_auth_url_callback(
         Callable: Auth URL callback function.
     """
 
-    def on_auth_url_callback(auth_url: str):
+    def on_auth_url_callback(auth_url: str, oauth_verification_code: str):
         # Check if OAuth was cancelled before setting auth URL
         if get_oauth_polling_status(user_id, server_name):
             set_user_oauth_url(
                 user_id=user_id,
                 server_name=server_name,
                 auth_url=auth_url,
+            )
+            set_user_oauth_oauth_verification_code(
+                user_id=user_id,
+                server_name=server_name,
+                oauth_verification_code=oauth_verification_code,
             )
             on_update(client, user_id)
 
@@ -111,6 +118,7 @@ def create_token_callback(
         )
 
         clear_user_oauth_url(user_id, server_name)
+        clear_user_oauth_oauth_verification_code(user_id, server_name)
         on_update(client, user_id)
 
         try:
@@ -151,6 +159,7 @@ def create_timeout_callback(
 
     def on_timeout_callback():
         clear_user_oauth_url(user_id, server_name)
+        clear_user_oauth_oauth_verification_code(user_id, server_name)
         on_update(client, user_id)
 
     return on_timeout_callback
@@ -209,6 +218,7 @@ def enable_user_oauth_session(
             server_name=server_name,
             provider_name=provider_name,
             scopes=server.get("scopes", []),
+            callback_url=get_oauth_callback_url(),
             on_auth_url_callback=on_auth_url_callback,
             on_token_callback=on_token_callback,
             on_timeout_callback=on_timeout_callback,
@@ -240,6 +250,7 @@ def disable_user_oauth_session(
     server = get_oauth_server(server_index)
     clear_user_oauth_session(user_id, server["name"])
     clear_user_oauth_url(user_id, server["name"])
+    clear_user_oauth_oauth_verification_code(user_id, server["name"])
     on_update(client, user_id)
 
 
@@ -264,8 +275,9 @@ def cancel_user_oauth_polling(
     # Cancel the polling if it exists
     cancel_oauth_polling(user_id, server_name)
 
-    # Clear the OAuth URL to reset the UI state
+    # Clear the OAuth URL and oauth_verification_code to reset the UI state
     clear_user_oauth_url(user_id, server_name)
+    clear_user_oauth_oauth_verification_code(user_id, server_name)
 
     # Update the UI
     on_update(client, user_id)
@@ -329,3 +341,44 @@ def get_all_user_oauth_urls() -> dict[str, dict[str, str]]:
         dict[str, dict[str, str]]: All OAuth URLs indexed by user ID and server name.
     """
     return user_oauth_urls
+
+
+def set_user_oauth_oauth_verification_code(
+    user_id: str, server_name: str, oauth_verification_code: str
+) -> None:
+    """
+    Set OAuth oauth_verification_code for a user and server.
+
+    Args:
+        user_id (str): User ID.
+        server_name (str): Server name.
+        oauth_verification_code (str): Random oauth_verification_code used in AgentCore user ID.
+    """
+    if user_id not in user_oauth_verification_codes:
+        user_oauth_verification_codes[user_id] = {}
+    user_oauth_verification_codes[user_id][server_name] = oauth_verification_code
+
+
+def clear_user_oauth_oauth_verification_code(user_id: str, server_name: str) -> None:
+    """
+    Clear OAuth oauth_verification_code for a user and server.
+
+    Args:
+        user_id (str): User ID.
+        server_name (str): Server name.
+    """
+    if user_id in user_oauth_verification_codes:
+        user_oauth_verification_codes[user_id].pop(server_name, None)
+
+
+def get_user_oauth_verification_codes(user_id: str) -> dict[str, str]:
+    """
+    Get OAuth verification codes for a specific user.
+
+    Args:
+        user_id (str): User ID.
+
+    Returns:
+        dict[str, str]: OAuth verification codes indexed by server name for the user.
+    """
+    return user_oauth_verification_codes.get(user_id, {})

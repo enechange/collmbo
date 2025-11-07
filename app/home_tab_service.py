@@ -8,7 +8,10 @@ from slack_sdk import WebClient
 
 from app.home_tab_logic import build_home_tab_view
 from app.mcp.config_service import get_mcp_config
-from app.mcp.oauth_control_service import get_user_oauth_urls
+from app.mcp.oauth_control_service import (
+    get_user_oauth_verification_codes,
+    get_user_oauth_urls,
+)
 from app.mcp.oauth_tools_service import (
     get_user_oauth_mcp_tools,
     get_user_oauth_sessions,
@@ -54,6 +57,7 @@ def update_home_tab(
     view = build_home_tab_view(
         mcp_config=get_mcp_config(),
         user_oauth_urls=get_user_oauth_urls(user_id),
+        user_oauth_verification_codes=get_user_oauth_verification_codes(user_id),
         user_oauth_sessions=get_user_oauth_sessions(user_id),
         user_oauth_tools=get_user_oauth_mcp_tools(user_id),
         user_tz=user_tz,

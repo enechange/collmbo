@@ -87,6 +87,7 @@ def test_build_no_auth_servers_section(mcp_servers, expected_blocks):
                     "index": 0,
                     "server": {"name": "GitHubServer"},
                     "auth_url": None,
+                    "oauth_verification_code": None,
                     "session_data": None,
                     "has_valid_session": False,
                     "has_cached_tools": False,
@@ -115,6 +116,7 @@ def test_build_no_auth_servers_section(mcp_servers, expected_blocks):
                     "index": 0,
                     "server": {"name": "GitHubServer"},
                     "auth_url": OAUTH_URL_PROCESSING,
+                    "oauth_verification_code": None,
                     "session_data": None,
                     "has_valid_session": False,
                     "has_cached_tools": False,
@@ -143,6 +145,7 @@ def test_build_no_auth_servers_section(mcp_servers, expected_blocks):
                     "index": 0,
                     "server": {"name": "GitHubServer"},
                     "auth_url": "https://auth.example.com",
+                    "oauth_verification_code": "e9f0a1b2",
                     "session_data": None,
                     "has_valid_session": False,
                     "has_cached_tools": False,
@@ -156,7 +159,7 @@ def test_build_no_auth_servers_section(mcp_servers, expected_blocks):
                 SectionBlock(text=MarkdownTextObject(text="GitHubServer")),
                 SectionBlock(
                     text=MarkdownTextObject(
-                        text="🔗 <https://auth.example.com|Click to authorize>"
+                        text="🔗 <https://auth.example.com|Click to authorize> / Code: `e9f0a1b2`"
                     )
                 ),
                 ActionsBlock(
@@ -168,13 +171,14 @@ def test_build_no_auth_servers_section(mcp_servers, expected_blocks):
                     ]
                 ),
             ],
-        ),  # Header + Server block + Auth URL + Cancel button
+        ),  # Header + Server block + Auth URL with oauth_verification_code + Cancel button
         (
             [
                 {
                     "index": 0,
                     "server": {"name": "GitHubServer"},
                     "auth_url": None,
+                    "oauth_verification_code": None,
                     "session_data": {"expires_at": 1640995200},
                     "has_valid_session": True,
                     "has_cached_tools": True,
@@ -204,6 +208,7 @@ def test_build_no_auth_servers_section(mcp_servers, expected_blocks):
                     "index": 0,
                     "server": {"name": "GitHubServer"},
                     "auth_url": None,
+                    "oauth_verification_code": None,
                     "session_data": {"expires_at": None},
                     "has_valid_session": True,
                     "has_cached_tools": True,
@@ -231,6 +236,7 @@ def test_build_no_auth_servers_section(mcp_servers, expected_blocks):
                     "index": 0,
                     "server": {"name": "GitHubServer"},
                     "auth_url": None,
+                    "oauth_verification_code": None,
                     "session_data": None,
                     "has_valid_session": True,
                     "has_cached_tools": False,
@@ -299,6 +305,7 @@ def test_build_home_tab_blocks(mcp_servers, expected_blocks):
     result = build_home_tab_blocks(
         mcp_config={"servers": config_servers},
         user_oauth_urls={},
+        user_oauth_verification_codes={},
         user_oauth_sessions={},
         user_oauth_tools={},
         user_tz="UTC",
@@ -307,7 +314,7 @@ def test_build_home_tab_blocks(mcp_servers, expected_blocks):
 
 
 @pytest.mark.parametrize(
-    "mcp_config, user_oauth_urls, user_oauth_sessions, user_oauth_tools, expected",
+    "mcp_config, user_oauth_urls, user_oauth_verification_codes, user_oauth_sessions, user_oauth_tools, expected",
     [
         (
             {
@@ -320,6 +327,7 @@ def test_build_home_tab_blocks(mcp_servers, expected_blocks):
                     }
                 ]
             },
+            {},
             {},
             {},
             {},
@@ -355,6 +363,7 @@ def test_build_home_tab_blocks(mcp_servers, expected_blocks):
                 ]
             },
             {"GitHubServer": "https://auth.example.com"},
+            {"GitHubServer": "e9f0a1b2"},
             {},
             {},
             [
@@ -368,7 +377,7 @@ def test_build_home_tab_blocks(mcp_servers, expected_blocks):
                 SectionBlock(text=MarkdownTextObject(text="GitHubServer")),
                 SectionBlock(
                     text=MarkdownTextObject(
-                        text="🔗 <https://auth.example.com|Click to authorize>"
+                        text="🔗 <https://auth.example.com|Click to authorize> / Code: `e9f0a1b2`"
                     )
                 ),
                 ActionsBlock(
@@ -380,12 +389,13 @@ def test_build_home_tab_blocks(mcp_servers, expected_blocks):
                     ]
                 ),
             ],
-        ),  # OAuth server with pending auth URL
+        ),  # OAuth server with pending auth URL and oauth_verification_code
     ],
 )
 def test_build_home_tab_blocks_with_oauth(
     mcp_config,
     user_oauth_urls,
+    user_oauth_verification_codes,
     user_oauth_sessions,
     user_oauth_tools,
     expected,
@@ -393,6 +403,7 @@ def test_build_home_tab_blocks_with_oauth(
     result = build_home_tab_blocks(
         mcp_config=mcp_config,
         user_oauth_urls=user_oauth_urls,
+        user_oauth_verification_codes=user_oauth_verification_codes,
         user_oauth_sessions=user_oauth_sessions,
         user_oauth_tools=user_oauth_tools,
         user_tz="UTC",
@@ -402,16 +413,17 @@ def test_build_home_tab_blocks_with_oauth(
 
 
 @pytest.mark.parametrize(
-    "mcp_config, user_oauth_urls, user_oauth_sessions, user_oauth_tools, expected",
+    "mcp_config, user_oauth_urls, user_oauth_verification_codes, user_oauth_sessions, user_oauth_tools, expected",
     [
         (
             {"servers": []},
             {},
             {},
             {},
+            {},
             View(
                 type="home",
-                blocks=build_home_tab_blocks({"servers": []}, {}, {}, {}, "UTC"),
+                blocks=build_home_tab_blocks({"servers": []}, {}, {}, {}, {}, "UTC"),
             ),
         ),
         (
@@ -420,6 +432,7 @@ def test_build_home_tab_blocks_with_oauth(
                     {"name": "TestServer", "url": "http://test", "auth_type": "none"}
                 ]
             },
+            {},
             {},
             {},
             {},
@@ -438,6 +451,7 @@ def test_build_home_tab_blocks_with_oauth(
                     {},
                     {},
                     {},
+                    {},
                     "UTC",
                 ),
             ),
@@ -447,6 +461,7 @@ def test_build_home_tab_blocks_with_oauth(
 def test_build_home_tab_view(
     mcp_config,
     user_oauth_urls,
+    user_oauth_verification_codes,
     user_oauth_sessions,
     user_oauth_tools,
     expected,
@@ -454,6 +469,7 @@ def test_build_home_tab_view(
     result = build_home_tab_view(
         mcp_config=mcp_config,
         user_oauth_urls=user_oauth_urls,
+        user_oauth_verification_codes=user_oauth_verification_codes,
         user_oauth_sessions=user_oauth_sessions,
         user_oauth_tools=user_oauth_tools,
         user_tz="UTC",
@@ -516,6 +532,7 @@ def test_extract_cancel_server_index(action_id, expected):
 def test_build_home_tab_blocks_with_error_message():
     mcp_config = {}
     user_oauth_urls = {}
+    user_oauth_verification_codes = {}
     user_oauth_sessions = {}
     user_oauth_tools = {}
     user_tz = "UTC"
@@ -524,6 +541,7 @@ def test_build_home_tab_blocks_with_error_message():
     result = build_home_tab_blocks(
         mcp_config,
         user_oauth_urls,
+        user_oauth_verification_codes,
         user_oauth_sessions,
         user_oauth_tools,
         user_tz,
@@ -542,6 +560,7 @@ def test_build_home_tab_blocks_with_error_message():
 def test_build_home_tab_view_with_error_message():
     mcp_config = {}
     user_oauth_urls = {}
+    user_oauth_verification_codes = {}
     user_oauth_sessions = {}
     user_oauth_tools = {}
     user_tz = "UTC"
@@ -550,6 +569,7 @@ def test_build_home_tab_view_with_error_message():
     result = build_home_tab_view(
         mcp_config,
         user_oauth_urls,
+        user_oauth_verification_codes,
         user_oauth_sessions,
         user_oauth_tools,
         user_tz,

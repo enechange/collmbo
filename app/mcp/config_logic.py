@@ -6,6 +6,7 @@ from typing import Optional
 
 DEFAULT_AUTH_SESSION_DURATION_MINUTES = 30
 DEFAULT_WORKLOAD_NAME = "Collmbo"
+DEFAULT_AGENTCORE_REGION = "us-west-2"
 
 
 def get_oauth_servers_from_config(mcp_config: dict) -> list[dict]:
@@ -99,4 +100,8 @@ def normalize_mcp_config(raw_mcp_config: Optional[dict]) -> dict:
             "auth_session_duration_minutes", DEFAULT_AUTH_SESSION_DURATION_MINUTES
         ),
         "workload_name": raw_mcp_config.get("workload_name", DEFAULT_WORKLOAD_NAME),
+        "agentcore_region": raw_mcp_config.get(
+            "agentcore_region", DEFAULT_AGENTCORE_REGION
+        ),
+        "oauth_callback_url": raw_mcp_config.get("oauth_callback_url", ""),
     }

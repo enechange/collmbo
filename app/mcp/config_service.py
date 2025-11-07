@@ -8,6 +8,7 @@ from typing import Optional
 import yaml
 
 from app.mcp.config_logic import (
+    DEFAULT_AGENTCORE_REGION,
     DEFAULT_WORKLOAD_NAME,
     get_no_auth_servers_from_config,
     get_oauth_server_from_config,
@@ -118,7 +119,7 @@ def get_agentcore_region() -> str:
         str: AgentCore region for OAuth MCP servers.
     """
     config = get_mcp_config()
-    return config.get("agentcore_region", "us-west-2")
+    return config.get("agentcore_region", DEFAULT_AGENTCORE_REGION)
 
 
 def get_auth_session_duration_minutes() -> int:
@@ -130,3 +131,14 @@ def get_auth_session_duration_minutes() -> int:
     """
     config = get_mcp_config()
     return config["auth_session_duration_minutes"]
+
+
+def get_oauth_callback_url() -> str:
+    """
+    Get OAuth callback URL from configuration.
+
+    Returns:
+        str: OAuth callback URL for AgentCore Identity.
+    """
+    config = get_mcp_config()
+    return config.get("oauth_callback_url", "")
