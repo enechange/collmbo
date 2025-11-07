@@ -125,6 +125,7 @@ def create_workload_identity_token(
     client: IdentityClient,
     workload_name: str,
     agentcore_user_id: str,
+    callback_urls: list[str],
 ) -> str:
     """
     Get workload identity token from AgentCore.
@@ -133,6 +134,7 @@ def create_workload_identity_token(
         client (IdentityClient): AgentCore Identity client.
         workload_name (str): Workload name for AgentCore.
         agentcore_user_id (str): Salted user identifier for AgentCore.
+        callback_urls (list[str]): List of allowed OAuth callback URLs.
 
     Returns:
         str: Workload identity token.
@@ -141,11 +143,20 @@ def create_workload_identity_token(
         Exception: If token creation fails.
     """
     try:
-        workload_identity = client.create_workload_identity(name=workload_name)
+        workload_identity = client.create_workload_identity(
+            name=workload_name,
+            allowed_resource_oauth_2_return_urls=callback_urls,
+        )
         workload_identity_name = workload_identity["name"]
     except Exception as e:
         if "already exists" in str(e):
             workload_identity_name = workload_name
+            # Update existing workload with callback URLs
+            if callback_urls:
+                client.update_workload_identity(
+                    name=workload_name,
+                    allowed_resource_oauth_2_return_urls=callback_urls,
+                )
         else:
             raise e
     token_response = client.get_workload_access_token(
@@ -162,7 +173,8 @@ async def initiate_oauth_flow_with_callback(
     server_name: str,
     provider_name: str,
     scopes: list[str],
-    on_auth_url_callback: Callable[[str], None],
+    callback_url: str,
+    on_auth_url_callback: Callable[[str, str], None],
     on_token_callback: Callable[[str], Awaitable[None]],
     on_timeout_callback: Optional[Callable[[], None]] = None,
 ) -> None:
@@ -176,7 +188,8 @@ async def initiate_oauth_flow_with_callback(
         server_name (str): MCP server name.
         provider_name (str): OAuth provider name.
         scopes (list[str]): OAuth scopes.
-        on_auth_url_callback: Callback function to handle auth URL display.
+        callback_url (str): OAuth callback URL for AgentCore Identity.
+        on_auth_url_callback: Callback function to handle auth URL display (receives auth_url and oauth_verification_code).
         on_token_callback: Callback function to handle token receipt.
 
     Returns:
@@ -189,12 +202,21 @@ async def initiate_oauth_flow_with_callback(
     random_suffix = secrets.token_hex()
     agentcore_user_id = create_agentcore_user_id(user_id, random_suffix)
     client = IdentityClient(region=region)
+
+    # Create or update workload identity with callback URL
+    callback_urls = [callback_url] if callback_url else []
     identity_token = create_workload_identity_token(
         client=client,
         workload_name=workload_name,
         agentcore_user_id=agentcore_user_id,
+        callback_urls=callback_urls,
     )
-    # Create cancellable token poller
+
+    # Extract verification code (last 8 chars) and prefix for session binding
+    oauth_verification_code = random_suffix[-8:]
+    agentcore_user_id_without_last8 = agentcore_user_id[:-8]
+
+    # Create cancellable token poller with custom_state for session binding
     poller = CancellableTokenPoller(
         auth_url="pending",  # Will be updated in the callback
         func=lambda: client.dp_client.get_resource_oauth2_token(
@@ -202,6 +224,7 @@ async def initiate_oauth_flow_with_callback(
             scopes=scopes,
             oauth2Flow="USER_FEDERATION",
             workloadIdentityToken=identity_token,
+            customState=agentcore_user_id_without_last8,
         ).get("accessToken", None),
         user_id=user_id,
         server_name=server_name,
@@ -218,8 +241,12 @@ async def initiate_oauth_flow_with_callback(
             provider_name=provider_name,
             scopes=scopes,
             agent_identity_token=identity_token,
-            on_auth_url=on_auth_url_callback,
+            on_auth_url=lambda auth_url: on_auth_url_callback(
+                auth_url, oauth_verification_code
+            ),
             auth_flow="USER_FEDERATION",
+            callback_url=callback_url,
+            custom_state=agentcore_user_id_without_last8,
             token_poller=poller,
         )
 

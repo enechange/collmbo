@@ -37,6 +37,8 @@ from app.mcp.config_logic import (
                 ],
                 "auth_session_duration_minutes": 30,
                 "workload_name": "Collmbo",
+                "agentcore_region": "us-west-2",
+                "oauth_callback_url": "",
             },
         ),
         # Valid config with auth_session_duration_minutes
@@ -62,6 +64,8 @@ from app.mcp.config_logic import (
                 ],
                 "auth_session_duration_minutes": 30,
                 "workload_name": "Collmbo",
+                "agentcore_region": "us-west-2",
+                "oauth_callback_url": "",
             },
         ),
         # Empty dict - should return empty with default
@@ -71,6 +75,8 @@ from app.mcp.config_logic import (
                 "servers": [],
                 "auth_session_duration_minutes": 30,
                 "workload_name": "Collmbo",
+                "agentcore_region": "us-west-2",
+                "oauth_callback_url": "",
             },
         ),
         # Invalid dict without servers key - should return empty with default
@@ -80,6 +86,8 @@ from app.mcp.config_logic import (
                 "servers": [],
                 "auth_session_duration_minutes": 30,
                 "workload_name": "Collmbo",
+                "agentcore_region": "us-west-2",
+                "oauth_callback_url": "",
             },
         ),
         # None input - should return empty with default
@@ -89,6 +97,8 @@ from app.mcp.config_logic import (
                 "servers": [],
                 "auth_session_duration_minutes": 30,
                 "workload_name": "Collmbo",
+                "agentcore_region": "us-west-2",
+                "oauth_callback_url": "",
             },
         ),
     ],
