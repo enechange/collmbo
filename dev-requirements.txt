@@ -3,7 +3,7 @@
 black==25.9.0
 flake8==7.3.0
 mypy==1.18.2
-pytest==8.4.2
+pytest==9.0.0
 pytest-cov==7.0.0
 types-PyYAML==6.0.12.20250915
 types-pytz==2025.2.0.20251108
