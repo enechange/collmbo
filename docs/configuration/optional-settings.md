@@ -2,6 +2,7 @@
 
 Collmbo works fine with defaults, but you can customize its behavior by setting the following environment variables:
 
+- `LITELLM_DROP_PARAMS` (Comma-separated list of parameters to drop when calling LiteLLM. Example: `"top_p"`)
 - `LITELLM_MAX_TOKENS`
 - `LITELLM_SYSTEM_TEXT`
 - `LITELLM_TEMPERATURE`
