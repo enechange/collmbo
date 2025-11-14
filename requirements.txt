@@ -4,7 +4,7 @@ litellm==1.79.3
 pillow==11.3.0
 httpx==0.28.1
 bedrock-agentcore==1.0.6
-mcp==1.21.0
+mcp==1.21.1
 pytz==2025.2
 strands-agents==1.16.0
 strands-agents-tools==0.2.15
