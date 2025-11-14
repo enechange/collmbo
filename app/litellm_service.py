@@ -15,6 +15,7 @@ from slack_sdk.web import SlackResponse, WebClient
 
 from app.env import (
     LITELLM_CALLBACK_MODULE_NAME,
+    LITELLM_DROP_PARAMS,
     LITELLM_MAX_TOKENS,
     LITELLM_MODEL,
     LITELLM_TEMPERATURE,
@@ -123,6 +124,11 @@ def call_litellm_completion(
     if tools is not None:
         kwargs["tools"] = tools
         kwargs["parallel_tool_calls"] = False
+
+    if LITELLM_DROP_PARAMS is not None:
+        kwargs["additional_drop_params"] = [
+            param.strip() for param in LITELLM_DROP_PARAMS.split(",")
+        ]
 
     return litellm.completion(**kwargs)
 
