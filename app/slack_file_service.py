@@ -23,7 +23,12 @@ def get_slack_file_content(
     Returns:
         - bytes: The content of the Slack file.
     """
-    response = httpx.get(url, headers={"Authorization": f"Bearer {token}"}, timeout=10)
+    response = httpx.get(
+        url,
+        headers={"Authorization": f"Bearer {token}"},
+        timeout=10,
+        follow_redirects=True,
+    )
     if response.status_code != 200:
         raise SlackApiError(
             f"Request to {url} failed with status code {response.status_code}", response
