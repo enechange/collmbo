@@ -7,7 +7,7 @@ bedrock-agentcore==1.0.6
 mcp==1.21.2
 pytz==2025.2
 strands-agents==1.17.0
-strands-agents-tools==0.2.15
+strands-agents-tools==0.2.16
 
 # workaround for https://github.com/BerriAI/litellm/issues/13081
 apscheduler
