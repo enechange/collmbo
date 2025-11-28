@@ -28,8 +28,8 @@ jobs:
     steps:
       - name: Prepare
         run: |
-          platform=${{ matrix.platform }}
-          echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
+          platform="${{ matrix.platform }}"
+          echo "PLATFORM_PAIR=${platform//\//-}" >> "$GITHUB_ENV"
 
       - name: Checkout
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
@@ -114,12 +114,12 @@ jobs:
       - name: Create manifest list and push
         working-directory: /tmp/digests
         run: |
-          tags=$(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON")
-          docker buildx imagetools create $tags \
-            $(printf "${REGISTRY_IMAGE}@sha256:%s " *)
+          readarray -t tag_array < <(jq -cr '.tags[] | "-t " + .' <<< "$DOCKER_METADATA_OUTPUT_JSON")
+          docker buildx imagetools create "${tag_array[@]}" \
+            "$(printf "${REGISTRY_IMAGE}@sha256:%s " *)"
 
       - name: Inspect image
         env:
           STEPS_META_OUTPUTS_VERSION: ${{ steps.meta.outputs.version }}
         run: |
-          docker buildx imagetools inspect ${REGISTRY_IMAGE}:${STEPS_META_OUTPUTS_VERSION}
+          docker buildx imagetools inspect "${REGISTRY_IMAGE}:${STEPS_META_OUTPUTS_VERSION}"
