@@ -115,7 +115,17 @@ jobs:
         working-directory: /tmp/digests
         run: |
           readarray -t tag_array < <(jq -cr '.tags[] | "-t " + .' <<< "$DOCKER_METADATA_OUTPUT_JSON")
+          echo "Tag array elements:"
+          printf '%s\n' "${tag_array[@]}"
+
           readarray -t digest_array < <(printf "${REGISTRY_IMAGE}@sha256:%s\n" *)
+          echo "Digest array elements:"
+          printf '%s\n' "${digest_array[@]}"
+
+          echo "Files in /tmp/digests:"
+          ls -la
+
+          echo "Running docker buildx imagetools create..."
           docker buildx imagetools create "${tag_array[@]}" "${digest_array[@]}"
 
       - name: Inspect image
