@@ -63,9 +63,11 @@ jobs:
           cache-to: type=registry,ref=${{ env.REGISTRY_IMAGE }}:cache-${{ env.PLATFORM_PAIR }},mode=max
 
       - name: Export digest
+        env:
+          STEPS_BUILD_OUTPUTS_DIGEST: ${{ steps.build.outputs.digest }}
         run: |
           mkdir -p /tmp/digests
-          digest="${{ steps.build.outputs.digest }}"
+          digest="${STEPS_BUILD_OUTPUTS_DIGEST}"
           touch "/tmp/digests/${digest#sha256:}"
 
       - name: Upload digest
@@ -114,8 +116,10 @@ jobs:
         run: |
           tags=$(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON")
           docker buildx imagetools create $tags \
-            $(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
+            $(printf '${REGISTRY_IMAGE}@sha256:%s ' *)
 
       - name: Inspect image
+        env:
+          STEPS_META_OUTPUTS_VERSION: ${{ steps.meta.outputs.version }}
         run: |
-          docker buildx imagetools inspect ${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
+          docker buildx imagetools inspect ${REGISTRY_IMAGE}:${STEPS_META_OUTPUTS_VERSION}
