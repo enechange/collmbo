@@ -3,5 +3,14 @@
   "extends": [
     "config:recommended"
   ],
-  "labels": ["dependencies"]
+  "labels": ["dependencies"],
+  "regexManagers": [
+    {
+      "fileMatch": ["^\\.github/workflows/.+\\.ya?ml$"],
+      "matchStrings": [
+        "go install (?<depName>.*?)@(?<currentValue>v[0-9.]+)"
+      ],
+      "datasourceTemplate": "go"
+    }
+  ]
 }
