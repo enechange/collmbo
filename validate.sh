@@ -17,3 +17,10 @@ if [[ "$1" == "ci" ]]; then
 else
   pytest --cov=main --cov=app --cov-branch --cov-report=term
 fi
+
+# Check GitHub Actions workflows for security issues
+if [[ "$1" == "ci" ]]; then
+  zizmor .github/workflows/
+else
+  zizmor --fix .github/workflows/
+fi
