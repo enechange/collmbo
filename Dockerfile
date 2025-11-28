@@ -1,9 +1,8 @@
 FROM python:3.13.9-slim-trixie AS builder
 WORKDIR /build/
-COPY uv-requirements.txt /build/
-RUN pip install --no-cache-dir -r uv-requirements.txt
-COPY requirements.txt /build/
-RUN uv pip install --system --no-cache -r requirements.txt
+COPY --from=ghcr.io/astral-sh/uv:0.9.13 /uv /usr/local/bin/uv
+COPY pyproject.toml /build/
+RUN uv pip install --system -r pyproject.toml --no-cache
 
 FROM python:3.13.9-slim-trixie AS app
 WORKDIR /app/
