@@ -1,0 +1,35 @@
+name: Trivy security scan
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      security-events: write
+    steps:
+      - name: Pull Docker image
+        env:
+          REGISTRY_IMAGE: ghcr.io/${{ github.repository }}
+        run: |
+          docker pull "${REGISTRY_IMAGE}:latest"
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8 # v0.33.1
+        env:
+          REGISTRY_IMAGE: ghcr.io/${{ github.repository }}
+        with:
+          image-ref: ${{ env.REGISTRY_IMAGE }}:latest
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'HIGH,CRITICAL'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@24ebe4642ec51bc5869e9a70b929865f60c3d0b1 # v4.31.5
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
