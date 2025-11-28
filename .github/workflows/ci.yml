@@ -12,7 +12,7 @@ jobs:
   build:
     name: Run Linting, Type Check, and Tests
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
 
     steps:
       - name: Checkout code
