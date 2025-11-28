@@ -1,7 +1,6 @@
 FROM python:3.13.9-slim-trixie AS builder
 WORKDIR /build/
 COPY --from=ghcr.io/astral-sh/uv:0.9.13 /uv /usr/local/bin/uv
-RUN uv pip install --system pip==25.3 --no-cache
 COPY pyproject.toml /build/
 RUN uv pip install --system -r pyproject.toml --no-cache
 
@@ -9,6 +8,7 @@ FROM python:3.13.9-slim-trixie AS app
 WORKDIR /app/
 COPY --from=builder /usr/local/bin/ /usr/local/bin/
 COPY --from=builder /usr/local/lib/ /usr/local/lib/
+RUN pip install --upgrade pip==25.3
 COPY config/ /app/config/
 COPY main.py /app/
 COPY app/*.py /app/app/
