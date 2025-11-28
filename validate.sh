@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-pip install -r dev-requirements.txt
+uv pip install --system -r pyproject.toml --extra dev
 
 if [[ "$1" == "ci" ]]; then
   black --check ./*.py ./app/*.py ./app/mcp/*.py ./tests/*.py ./tests/mcp/*.py
