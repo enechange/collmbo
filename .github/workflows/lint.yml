@@ -25,8 +25,14 @@ jobs:
         with:
           go-version: stable
 
+      - name: Install actionlint
+        run: go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.9
+
       - name: Install ghalint
         run: go install github.com/suzuki-shunsuke/ghalint/cmd/ghalint@v1.5.3
+
+      - name: Run actionlint
+        run: actionlint
 
       - name: Run ghalint
         run: ghalint run
