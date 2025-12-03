@@ -13,7 +13,7 @@ dependencies = [
     "pillow==11.3.0",
     "httpx==0.28.1",
     "bedrock-agentcore==1.1.0",
-    "mcp==1.22.0",
+    "mcp==1.23.0",
     "pytz==2025.2",
     "strands-agents==1.18.0",
     "strands-agents-tools==0.2.16",
