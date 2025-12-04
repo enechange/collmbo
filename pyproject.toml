@@ -16,7 +16,7 @@ dependencies = [
     "mcp==1.23.1",
     "pytz==2025.2",
     "strands-agents==1.19.0",
-    "strands-agents-tools==0.2.16",
+    "strands-agents-tools==0.2.17",
     # workaround for https://github.com/BerriAI/litellm/issues/13081
     "apscheduler",
     "backoff",
