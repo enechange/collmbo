@@ -112,6 +112,7 @@ def respond_to_new_post(
         return
 
     wip_reply = None
+    reply_thread_ts = None
     try:
         if not (
             is_post_mentioned(context.bot_user_id, payload)
@@ -148,21 +149,21 @@ def respond_to_new_post(
             client=client,
             channel_id=context.channel_id,
             locale=context.get("locale"),
-            wip_reply=wip_reply,
+            thread_ts=reply_thread_ts,
         )
     except ContextWindowExceededError as e:
         handle_context_window_exceeded_error(
             client=client,
             channel_id=context.channel_id,
             e=e,
-            wip_reply=wip_reply,
+            thread_ts=reply_thread_ts,
         )
     except Exception as e:
         handle_exception(
             client=client,
             channel_id=context.channel_id,
             e=e,
-            wip_reply=wip_reply,
+            thread_ts=reply_thread_ts,
         )
 
 
@@ -460,29 +461,24 @@ def handle_timeout_error(
     client: WebClient,
     channel_id: str,
     locale: Optional[str],
-    wip_reply: Optional[SlackResponse],
+    thread_ts: Optional[str] = None,
 ):
     """
-    Handles timeout errors by updating the loading reply with an error message.
+    Handles timeout errors by posting an error message as a separate reply.
 
     Args:
         client (WebClient): The Slack WebClient instance.
         channel_id (str): The ID of the channel where the post was made.
         locale (Optional[str]): The locale for translation.
-        wip_reply (Optional[SlackResponse]): The loading reply to update.
+        thread_ts (Optional[str]): The thread timestamp to reply to.
 
     Returns:
         None
     """
-    if wip_reply is None:
-        return
-    message_dict: dict = wip_reply.get("message", {})
-    text = (
-        message_dict.get("text", "") + "\n\n" + translate(locale, TIMEOUT_ERROR_MESSAGE)
-    )
-    client.chat_update(
+    text = translate(locale, TIMEOUT_ERROR_MESSAGE)
+    client.chat_postMessage(
         channel=channel_id,
-        ts=message_dict.get("ts", ""),
+        thread_ts=thread_ts,
         text=text,
     )
 
@@ -492,33 +488,24 @@ def handle_context_window_exceeded_error(
     client: WebClient,
     channel_id: str,
     e: ContextWindowExceededError,
-    wip_reply: Optional[SlackResponse],
+    thread_ts: Optional[str] = None,
 ):
     """
-    Handles context window exceeded errors by updating the loading reply with an error message.
+    Handles context window exceeded errors by posting an error message as a separate reply.
 
     Args:
         client (WebClient): The Slack WebClient instance.
         channel_id (str): The ID of the channel where the post was made.
         e (ContextWindowExceededError): The exception that occurred.
-        wip_reply (Optional[SlackResponse]): The loading reply to update.
+        thread_ts (Optional[str]): The thread timestamp to reply to.
 
     Returns:
         None
     """
-    if wip_reply is None:
-        return
-    message_dict: dict = wip_reply.get("message", {})
-    text = (
-        message_dict.get("text", "")
-        + "\n\n"
-        + CONTEXT_WINDOW_EXCEEDED_ERROR_MESSAGE
-        + "\n\n"
-        + f"Error: {e}"
-    )
-    client.chat_update(
+    text = CONTEXT_WINDOW_EXCEEDED_ERROR_MESSAGE + "\n\n" + f"Error: {e}"
+    client.chat_postMessage(
         channel=channel_id,
-        ts=message_dict.get("ts", ""),
+        thread_ts=thread_ts,
         text=text,
     )
 
@@ -528,29 +515,27 @@ def handle_exception(
     client: WebClient,
     channel_id: str,
     e: Exception,
-    wip_reply: Optional[SlackResponse],
+    thread_ts: Optional[str] = None,
 ):
     """
-    Handles exceptions by updating the loading reply with an error message.
+    Handles exceptions by posting an error message as a separate reply.
 
     Args:
         client (WebClient): The Slack WebClient instance.
         channel_id (str): The ID of the channel where the post was made.
         e (Exception): The exception that occurred.
-        wip_reply (Optional[SlackResponse]): The loading reply to update.
+        thread_ts (Optional[str]): The thread timestamp to reply to.
 
     Returns:
         None
     """
-    message_dict: dict = wip_reply.get("message", {}) if wip_reply else {}
-    text = message_dict.get("text", "") + "\n\n" + f":warning: Failed to reply: {e}"
+    text = f":warning: Failed to reply: {e}"
     client.logger.exception(text)
-    if wip_reply:
-        client.chat_update(
-            channel=channel_id,
-            ts=message_dict.get("ts", ""),
-            text=text,
-        )
+    client.chat_postMessage(
+        channel=channel_id,
+        thread_ts=thread_ts,
+        text=text,
+    )
 
 
 def handle_app_home_opened(client: WebClient, event: dict) -> None:
