@@ -1,6 +1,6 @@
 FROM python:3.13.9-slim-trixie AS builder
 WORKDIR /build/
-COPY --from=ghcr.io/astral-sh/uv:0.9.15 /uv /usr/local/bin/uv
+COPY --from=ghcr.io/astral-sh/uv:0.9.16 /uv /usr/local/bin/uv
 COPY pyproject.toml /build/
 RUN uv pip install --system -r pyproject.toml --no-cache
 
