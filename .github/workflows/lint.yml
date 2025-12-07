@@ -9,8 +9,8 @@ permissions:
   contents: read
 
 jobs:
-  ghalint:
-    name: Lint GitHub Actions workflows
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -19,6 +19,11 @@ jobs:
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           persist-credentials: false
+
+      - name: Run hadolint
+        uses: hadolint/hadolint-action@2332a7b74a6de0dda2e2221d575162eba76ba5e5 # v3.3.0
+        with:
+          dockerfile: Dockerfile
 
       - name: Set up Go
         uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
