@@ -207,7 +207,7 @@ async def fetch_mcp_oauth_tools(
     headers = create_bearer_auth_headers(token, additional_headers)
 
     client = MCPClient(lambda: streamablehttp_client(server_url, headers=headers))
-    with client:
+    with client:  # ty: ignore[invalid-context-manager]
         mcp_tools = client.list_tools_sync()
 
     for mcp_tool in mcp_tools:
@@ -255,7 +255,7 @@ def process_oauth_mcp_tool_call(
     )
 
     try:
-        with mcp_client:
+        with mcp_client:  # ty: ignore[invalid-context-manager]
             result = mcp_client.call_tool_sync(
                 tool_use_id=tool_call_id,
                 name=tool_name,

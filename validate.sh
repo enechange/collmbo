@@ -10,7 +10,7 @@ else
   uv run ruff check --fix ./*.py ./app/*.py ./app/mcp/*.py ./tests/*.py ./tests/mcp/*.py
   uv run ruff format ./*.py ./app/*.py ./app/mcp/*.py ./tests/*.py ./tests/mcp/*.py
 fi
-uv run mypy ./*.py ./app/*.py ./app/mcp/*.py ./tests/*.py ./tests/mcp/*.py
+uv run ty check ./*.py ./app/*.py ./app/mcp/*.py ./tests/*.py ./tests/mcp/*.py
 
 if [[ "$1" == "ci" ]]; then
   uv run pytest --cov=main --cov=app --cov-branch --cov-report=term --cov-report=xml

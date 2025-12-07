@@ -12,7 +12,6 @@ TEST_LOCALE_TO_LANG = {
     "ja-JP": "Japanese",
     "en-US": "English",
     "de-DE": "German",
-    "xx-XX": None,
 }
 
 
@@ -22,7 +21,7 @@ TEST_LOCALE_TO_LANG = {
         ("ja-JP", "Japanese"),
         ("en-US", "English"),
         ("de-DE", "German"),
-        ("xx-XX", None),
+        ("xx-XX", None),  # Key not in dict
         (None, None),
     ],
 )
