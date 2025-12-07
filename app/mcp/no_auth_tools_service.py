@@ -30,7 +30,7 @@ def load_no_auth_mcp_tools() -> None:
         url = server["url"]
         try:
             client = MCPClient(partial(streamablehttp_client, url))
-            with client:
+            with client:  # ty: ignore[invalid-context-manager]
                 tools = client.list_tools_sync()
             result.extend(
                 transform_mcp_spec_to_classic_tool(
@@ -97,7 +97,7 @@ def process_no_auth_mcp_tool_call(
         str: The response from the tool call.
     """
     mcp_client = MCPClient(lambda: streamablehttp_client(server_url))
-    with mcp_client:
+    with mcp_client:  # ty: ignore[invalid-context-manager]
         result = mcp_client.call_tool_sync(
             tool_use_id=tool_call_id,
             name=tool_name,

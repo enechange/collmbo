@@ -2,9 +2,9 @@
 Logic functions for building home tab blocks.
 """
 
-from datetime import datetime
+from datetime import UTC, datetime
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-import pytz
 from slack_sdk.models.blocks import (
     ActionsBlock,
     Block,
@@ -97,11 +97,11 @@ def format_timestamp(timestamp: int, user_tz: str) -> str:
         str: Formatted time string.
     """
     try:
-        dt = datetime.fromtimestamp(timestamp, tz=pytz.UTC)
+        dt = datetime.fromtimestamp(timestamp, tz=UTC)
         try:
-            user_timezone = pytz.timezone(user_tz)
+            user_timezone = ZoneInfo(user_tz)
             dt = dt.astimezone(user_timezone)
-        except (pytz.exceptions.UnknownTimeZoneError, AttributeError):
+        except (ZoneInfoNotFoundError, AttributeError):
             pass
         return dt.strftime("%H:%M:%S")
     except (ValueError, TypeError, OSError):
