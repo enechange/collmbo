@@ -2,8 +2,6 @@
 Logic functions for OAuth session management.
 """
 
-from typing import Optional
-
 from app.mcp.tools_logic import (
     AUTH_TYPE_ABBREVIATIONS,
     MCP_TOOL_NAME_SEPARATOR,
@@ -11,7 +9,7 @@ from app.mcp.tools_logic import (
 )
 
 
-def is_session_not_expired(session: Optional[dict], timestamp: int) -> bool:
+def is_session_not_expired(session: dict | None, timestamp: int) -> bool:
     """
     Check if authentication session has not expired.
 
@@ -29,7 +27,7 @@ def is_session_not_expired(session: Optional[dict], timestamp: int) -> bool:
 
 def create_bearer_auth_headers(
     token: str,
-    additional_headers: Optional[dict[str, str]] = None,
+    additional_headers: dict[str, str] | None = None,
 ) -> dict[str, str]:
     """
     Create authorization headers for Bearer token authentication.

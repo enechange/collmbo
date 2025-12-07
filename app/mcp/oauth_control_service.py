@@ -5,7 +5,7 @@ Service functions for MCP servers with OAuth authentication.
 import asyncio
 import concurrent.futures
 import time
-from typing import Callable
+from collections.abc import Callable
 
 from slack_sdk import WebClient
 

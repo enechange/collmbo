@@ -2,12 +2,10 @@
 Provides logic for handling translations.
 """
 
-from typing import Optional
-
 
 def get_lang_from_locale(
-    locale: Optional[str], locale_to_lang: dict[str, str]
-) -> Optional[str]:
+    locale: str | None, locale_to_lang: dict[str, str]
+) -> str | None:
     """
     Get the language from the locale string.
 
@@ -40,7 +38,7 @@ def get_cached_translation(
     cache: dict[str, str],
     lang: str,
     original: str,
-) -> Optional[str]:
+) -> str | None:
     """
     Get the cached translation for the given language and original text.
 

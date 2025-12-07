@@ -2,8 +2,6 @@
 Provides functionality to translate text based on the user's locale.
 """
 
-from typing import Optional
-
 from litellm.types.utils import ModelResponse
 
 from app.litellm_service import call_litellm_completion
@@ -34,7 +32,7 @@ LOCALE_TO_LANG = {
 _translation_result_cache: dict[str, str] = {}
 
 
-def translate(locale: Optional[str], text: str) -> str:
+def translate(locale: str | None, text: str) -> str:
     """
     Translate the given text into the language specified by the locale.
 

@@ -3,7 +3,6 @@ This module provides service functions for MCP configuration.
 """
 
 from pathlib import Path
-from typing import Optional
 
 import yaml
 
@@ -19,7 +18,7 @@ from app.mcp.config_logic import (
 
 CONFIG_FILE_PATH = "config/mcp.yml"
 
-mcp_config: Optional[dict] = None
+mcp_config: dict | None = None
 
 
 def load_mcp_config() -> dict:
@@ -32,7 +31,7 @@ def load_mcp_config() -> dict:
     config_data = None
     path = Path(CONFIG_FILE_PATH)
     if path.exists():
-        with open(path, "r", encoding="utf-8") as f:
+        with open(path, encoding="utf-8") as f:
             config_data = yaml.safe_load(f)
     return normalize_mcp_config(config_data)
 
@@ -86,7 +85,7 @@ def get_oauth_server(server_index: int) -> dict:
     return get_oauth_server_from_config(config, server_index)
 
 
-def get_oauth_server_index(server_name: str) -> Optional[int]:
+def get_oauth_server_index(server_name: str) -> int | None:
     """
     Get OAuth server index by name.
 

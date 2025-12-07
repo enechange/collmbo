@@ -21,7 +21,7 @@ def set_user_oauth_session(
     server_name: str,
     token: str,
     expires_at: int,
-    tools: list[dict] = [],
+    tools: list[dict] | None = None,
 ) -> None:
     """
     Set OAuth session for a specific user and server.
@@ -31,8 +31,10 @@ def set_user_oauth_session(
         server_name (str): The MCP server name.
         token (str): The OAuth token.
         expires_at (int): Unix timestamp when the token expires.
-        tools (list[dict]): Tools list to store with session.
+        tools (list[dict] | None): Tools list to store with session.
     """
+    if tools is None:
+        tools = []
     if user_id not in user_oauth_sessions:
         user_oauth_sessions[user_id] = {}
     user_oauth_sessions[user_id][server_name] = {
@@ -261,11 +263,11 @@ def process_oauth_mcp_tool_call(
             )
         content = result["content"][0]
         return content.get("text", "")
-    except MCPClientInitializationError:
+    except MCPClientInitializationError as err:
         # MCP client failed to initialize, likely due to authentication error
         # Clear the invalid session and cached tools
         clear_user_oauth_session(user_id, server_config["name"])
         raise RuntimeError(
             f"Authentication error for {server_config['name']}. "
             "Please visit the Home tab to re-authorize."
-        )
+        ) from err

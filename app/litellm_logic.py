@@ -2,12 +2,10 @@
 This module contains logic related to LiteLLM.
 """
 
-from typing import Optional
-
 from litellm.types.utils import ModelResponse
 
 
-def extract_delta_content(chunk: ModelResponse) -> Optional[str]:
+def extract_delta_content(chunk: ModelResponse) -> str | None:
     """
     Extract the delta content from a chunk of model response.
 

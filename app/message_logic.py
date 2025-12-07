@@ -5,13 +5,12 @@ This module contains functions to handle message logic.
 import base64
 import re
 import unicodedata
-from typing import Optional
 
 
 def is_last_marker_reply(
     *,
     reply: dict,
-    bot_user_id: Optional[str],
+    bot_user_id: str | None,
     marker_text: str,
 ) -> bool:
     """
@@ -31,7 +30,7 @@ def is_last_marker_reply(
 def filter_replies_after_last_marker(
     *,
     replies: list[dict],
-    bot_user_id: Optional[str],
+    bot_user_id: str | None,
     marker_text: str,
 ) -> list[dict]:
     """
@@ -58,7 +57,7 @@ def filter_replies_after_last_marker(
 
 def build_system_message(
     system_text_template: str,
-    bot_user_id: Optional[str],
+    bot_user_id: str | None,
     translate_markdown: bool,
     prompt_caching_enabled: bool,
 ) -> dict:
@@ -154,7 +153,7 @@ def build_image_url_item(mime_type: str, image_bytes: bytes) -> dict:
     }
 
 
-def build_pdf_file_item(filename: Optional[str], pdf_bytes: bytes) -> dict:
+def build_pdf_file_item(filename: str | None, pdf_bytes: bytes) -> dict:
     """
     Build a PDF file item for the bot.
 
@@ -175,7 +174,7 @@ def build_pdf_file_item(filename: Optional[str], pdf_bytes: bytes) -> dict:
     }
 
 
-def remove_bot_mention(text: str, bot_user_id: Optional[str]) -> str:
+def remove_bot_mention(text: str, bot_user_id: str | None) -> str:
     """
     Remove the bot mention from the text.
 

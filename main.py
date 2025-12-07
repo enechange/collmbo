@@ -11,7 +11,6 @@ import re
 import signal
 import sys
 from types import FrameType
-from typing import Optional
 
 from slack_bolt import Ack, App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
@@ -113,7 +112,7 @@ def register_signal_handlers(slack_handler: SocketModeHandler) -> None:
         None
     """
 
-    def handler(signum: int, _: Optional[FrameType]) -> None:
+    def handler(signum: int, _: FrameType | None) -> None:
         logging.info("Received %s, shutting down...", signal.Signals(signum).name)
         shutdown_all_oauth_pollers()
         try:

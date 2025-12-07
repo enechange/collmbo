@@ -5,6 +5,7 @@ Service functions for no-auth MCP tools integration.
 import logging
 import threading
 import time
+from functools import partial
 
 from mcp.client.streamable_http import streamablehttp_client
 from strands.tools.mcp.mcp_client import MCPClient
@@ -28,7 +29,7 @@ def load_no_auth_mcp_tools() -> None:
     for idx, server in enumerate(no_auth_servers):
         url = server["url"]
         try:
-            client = MCPClient(lambda: streamablehttp_client(url))
+            client = MCPClient(partial(streamablehttp_client, url))
             with client:
                 tools = client.list_tools_sync()
             result.extend(
