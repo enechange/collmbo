@@ -4,9 +4,12 @@ Tests for the MCP OAuth logic module.
 
 import pytest
 
-from app.mcp.oauth_tools_logic import create_bearer_auth_headers, parse_mcp_tool_name
 from app.mcp.config_logic import get_oauth_servers_from_config
-from app.mcp.oauth_tools_logic import is_session_not_expired
+from app.mcp.oauth_tools_logic import (
+    create_bearer_auth_headers,
+    is_session_not_expired,
+    parse_mcp_tool_name,
+)
 
 
 # Configuration and validation function tests

@@ -106,7 +106,6 @@ def create_token_callback(
     """
 
     async def on_token_callback(token: str):
-
         duration_minutes = get_auth_session_duration_minutes()
         expires_at = int(time.time()) + (duration_minutes * 60)
 
