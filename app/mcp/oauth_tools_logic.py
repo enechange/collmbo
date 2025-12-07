@@ -5,9 +5,9 @@ Logic functions for OAuth session management.
 from typing import Optional
 
 from app.mcp.tools_logic import (
-    MCP_TOOL_NAME_SEPARATOR_FOR_GEMINI,
-    MCP_TOOL_NAME_SEPARATOR,
     AUTH_TYPE_ABBREVIATIONS,
+    MCP_TOOL_NAME_SEPARATOR,
+    MCP_TOOL_NAME_SEPARATOR_FOR_GEMINI,
 )
 
 

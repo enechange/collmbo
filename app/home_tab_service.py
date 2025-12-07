@@ -9,8 +9,8 @@ from slack_sdk import WebClient
 from app.home_tab_logic import build_home_tab_view
 from app.mcp.config_service import get_mcp_config
 from app.mcp.oauth_control_service import (
-    get_user_oauth_verification_codes,
     get_user_oauth_urls,
+    get_user_oauth_verification_codes,
 )
 from app.mcp.oauth_tools_service import (
     get_user_oauth_mcp_tools,

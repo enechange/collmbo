@@ -26,8 +26,8 @@ from app.bolt_listeners import (
 from app.bolt_logic import append_rate_limit_retry_handler
 from app.bolt_middlewares import before_authorize, set_locale
 from app.env import SLACK_APP_LOG_LEVEL, USE_SLACK_LANGUAGE
-from app.mcp.no_auth_tools_service import start_no_auth_mcp_tools_refresh_loop
 from app.mcp.agentcore_service import shutdown_all_oauth_pollers
+from app.mcp.no_auth_tools_service import start_no_auth_mcp_tools_refresh_loop
 
 
 def main() -> None:

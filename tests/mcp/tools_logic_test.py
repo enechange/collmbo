@@ -4,8 +4,8 @@ Tests for MCP tools logic module.
 
 import pytest
 
-from app.mcp.tools_logic import build_mcp_tool_name, transform_mcp_spec_to_classic_tool
 from app.mcp.oauth_tools_logic import parse_mcp_tool_name
+from app.mcp.tools_logic import build_mcp_tool_name, transform_mcp_spec_to_classic_tool
 from app.tools_logic import is_mcp_tool_name
 
 
