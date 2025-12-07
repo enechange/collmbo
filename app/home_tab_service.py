@@ -2,8 +2,6 @@
 Service functions for home tab that have side effects or external dependencies.
 """
 
-from typing import Optional
-
 from slack_sdk import WebClient
 
 from app.home_tab_logic import build_home_tab_view
@@ -43,7 +41,7 @@ def get_user_timezone(client: WebClient, user_id: str) -> str:
 def update_home_tab(
     client: WebClient,
     user_id: str,
-    error_message: Optional[str] = None,
+    error_message: str | None = None,
 ) -> None:
     """
     Update home tab by fetching all data from mcp_service.

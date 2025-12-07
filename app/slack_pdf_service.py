@@ -3,7 +3,6 @@ This module provides functionality to handle PDFs from Slack files.
 """
 
 import logging
-from typing import Optional
 
 from app.message_logic import build_pdf_file_item
 from app.slack_file_service import get_slack_file_content
@@ -12,7 +11,7 @@ from app.slack_file_service import get_slack_file_content
 def build_pdf_file_items_from_slack_files(
     *,
     bot_token: str,
-    files: Optional[list[dict]],
+    files: list[dict] | None,
     pdf_slots: int = 5,
     used_pdf_slots: int = 0,
 ) -> list[dict]:

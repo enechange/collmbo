@@ -6,7 +6,7 @@ import asyncio
 import logging
 import secrets
 import time
-from typing import Awaitable, Callable, Optional
+from collections.abc import Awaitable, Callable
 
 from bedrock_agentcore.services.identity import IdentityClient, TokenPoller
 
@@ -16,7 +16,7 @@ from app.mcp.agentcore_logic import create_agentcore_user_id
 OAUTH_POLLING_TIMEOUT_SECONDS = 300
 OAUTH_POLLING_INTERVAL_SECONDS = 5
 
-active_oauth_pollers: dict[str, "CancellableTokenPoller"] = {}
+active_oauth_pollers: dict[str, CancellableTokenPoller] = {}
 
 
 def create_poller_key(user_id: str, server_name: str) -> str:
@@ -30,7 +30,7 @@ class CancellableTokenPoller(TokenPoller):
     def __init__(
         self,
         auth_url: str,
-        func: Callable[[], Optional[str]],
+        func: Callable[[], str | None],
         user_id: str,
         server_name: str,
     ):
@@ -176,7 +176,7 @@ async def initiate_oauth_flow_with_callback(
     callback_url: str,
     on_auth_url_callback: Callable[[str, str], None],
     on_token_callback: Callable[[str], Awaitable[None]],
-    on_timeout_callback: Optional[Callable[[], None]] = None,
+    on_timeout_callback: Callable[[], None] | None = None,
 ) -> None:
     """
     Initiate OAuth flow using callbacks for auth URL and token.

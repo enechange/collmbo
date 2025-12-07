@@ -6,7 +6,6 @@ import json
 import logging
 from importlib import import_module
 from types import ModuleType
-from typing import Optional
 
 from litellm.types.utils import ChatCompletionMessageToolCall, Message
 
@@ -25,7 +24,7 @@ from app.mcp.oauth_tools_service import (
 from app.message_logic import build_tool_message
 from app.tools_logic import is_mcp_tool_name, load_classic_tools
 
-classic_tools: Optional[list[dict]] = None
+classic_tools: list[dict] | None = None
 
 
 def get_classic_tools() -> list[dict]:
@@ -42,8 +41,8 @@ def get_classic_tools() -> list[dict]:
 
 
 def get_all_tools(
-    channel: Optional[str] = None,
-    user_id: Optional[str] = None,
+    channel: str | None = None,
+    user_id: str | None = None,
 ) -> list[dict]:
     """
     Retrieves all tools, including classic and MCP tools.
@@ -74,7 +73,7 @@ def process_tool_calls(
     response_message: Message,
     assistant_message: dict,
     messages: list[dict],
-    user_id: Optional[str] = None,
+    user_id: str | None = None,
 ) -> None:
     """
     Processes the tool calls in the response message.
@@ -110,7 +109,7 @@ def process_tool_call(
     tool_call: ChatCompletionMessageToolCall,
     messages: list[dict],
     no_auth_server_urls: list[str],
-    user_id: Optional[str] = None,
+    user_id: str | None = None,
 ) -> None:
     """
     Processes a single tool call and updates the messages list.

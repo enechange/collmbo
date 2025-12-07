@@ -4,7 +4,6 @@ This module contains the logic for responding to new Slack posts.
 
 import logging
 import time
-from typing import Optional
 
 from litellm.exceptions import ContextWindowExceededError, Timeout
 from slack_bolt import BoltContext
@@ -192,8 +191,8 @@ def has_parent_post_mentioned(
 
 
 def find_parent_post(
-    client: WebClient, channel_id: Optional[str], thread_ts: Optional[str]
-) -> Optional[dict]:
+    client: WebClient, channel_id: str | None, thread_ts: str | None
+) -> dict | None:
     """
     Finds the parent post of a thread in Slack.
 
@@ -222,7 +221,7 @@ def post_loading_reply(
     channel_id: str,
     payload: dict,
     loading_text: str,
-) -> tuple[Optional[str], SlackResponse]:
+) -> tuple[str | None, SlackResponse]:
     """
     Posts a loading reply to a Slack post in a channel or thread.
 
@@ -460,8 +459,8 @@ def handle_timeout_error(
     *,
     client: WebClient,
     channel_id: str,
-    locale: Optional[str],
-    thread_ts: Optional[str] = None,
+    locale: str | None,
+    thread_ts: str | None = None,
 ):
     """
     Handles timeout errors by posting an error message as a separate reply.
@@ -488,7 +487,7 @@ def handle_context_window_exceeded_error(
     client: WebClient,
     channel_id: str,
     e: ContextWindowExceededError,
-    thread_ts: Optional[str] = None,
+    thread_ts: str | None = None,
 ):
     """
     Handles context window exceeded errors by posting an error message as a separate reply.
@@ -515,7 +514,7 @@ def handle_exception(
     client: WebClient,
     channel_id: str,
     e: Exception,
-    thread_ts: Optional[str] = None,
+    thread_ts: str | None = None,
 ):
     """
     Handles exceptions by posting an error message as a separate reply.

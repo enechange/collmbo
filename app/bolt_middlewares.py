@@ -3,7 +3,7 @@ This module contains middleware functions for the Slack Bolt app.
 """
 
 import logging
-from typing import Callable, Optional
+from collections.abc import Callable
 
 from slack_bolt import BoltContext, BoltResponse
 from slack_sdk.web import WebClient
@@ -15,7 +15,7 @@ def before_authorize(
     body: dict,
     payload: dict,
     next_: Callable[[], None],
-) -> Optional[BoltResponse]:
+) -> BoltResponse | None:
     """
     Skip message changed/deleted events to reduce unnecessary workload.
 

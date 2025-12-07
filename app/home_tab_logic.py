@@ -3,7 +3,6 @@ Logic functions for building home tab blocks.
 """
 
 from datetime import datetime
-from typing import List, Optional
 
 import pytz
 from slack_sdk.models.blocks import (
@@ -112,7 +111,7 @@ def format_timestamp(timestamp: int, user_tz: str) -> str:
 def format_server_display(
     server_name: str,
     is_enabled: bool,
-    expires_at: Optional[int] = None,
+    expires_at: int | None = None,
     user_tz: str = "UTC",
 ) -> str:
     """
@@ -145,8 +144,8 @@ def build_home_tab_blocks(
     user_oauth_sessions: dict[str, dict],
     user_oauth_tools: dict[str, list[dict]],
     user_tz: str,
-    error_message: Optional[str] = None,
-) -> List[Block]:
+    error_message: str | None = None,
+) -> list[Block]:
     """
     Build home tab blocks from configuration and user data.
 
@@ -162,7 +161,7 @@ def build_home_tab_blocks(
     Returns:
         List[Block]: List of Block Kit blocks.
     """
-    blocks: List[Block] = []
+    blocks: list[Block] = []
 
     if error_message:
         blocks.append(
@@ -204,7 +203,7 @@ def build_home_tab_blocks(
     return blocks
 
 
-def build_no_auth_servers_section(mcp_servers: list[dict[str, str]]) -> List[Block]:
+def build_no_auth_servers_section(mcp_servers: list[dict[str, str]]) -> list[Block]:
     """
     Build section for servers without authentication.
 
@@ -214,7 +213,7 @@ def build_no_auth_servers_section(mcp_servers: list[dict[str, str]]) -> List[Blo
     Returns:
         List[Block]: Block Kit blocks for no-auth servers.
     """
-    blocks: List[Block] = []
+    blocks: list[Block] = []
 
     blocks.append(
         HeaderBlock(text=PlainTextObject(text="🌐 MCP Servers without Authentication"))
@@ -239,7 +238,7 @@ def build_no_auth_servers_section(mcp_servers: list[dict[str, str]]) -> List[Blo
     return blocks
 
 
-def build_oauth_servers_section(mcp_servers: List[dict], user_tz: str) -> List[Block]:
+def build_oauth_servers_section(mcp_servers: list[dict], user_tz: str) -> list[Block]:
     """
     Build section for servers requiring authentication.
 
@@ -250,7 +249,7 @@ def build_oauth_servers_section(mcp_servers: List[dict], user_tz: str) -> List[B
     Returns:
         List[Block]: Block Kit blocks for auth servers.
     """
-    blocks: List[Block] = []
+    blocks: list[Block] = []
 
     if not mcp_servers:
         return blocks
@@ -352,7 +351,7 @@ def build_home_tab_view(
     user_oauth_sessions: dict[str, dict],
     user_oauth_tools: dict[str, list[dict]],
     user_tz: str,
-    error_message: Optional[str] = None,
+    error_message: str | None = None,
 ) -> View:
     """
     Build complete home tab view with all blocks.

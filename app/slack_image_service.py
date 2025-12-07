@@ -4,7 +4,6 @@ This module provides functionality to handle images from Slack files.
 
 import logging
 from io import BytesIO
-from typing import Optional
 
 from PIL import Image
 
@@ -18,7 +17,7 @@ SUPPORTED_IMAGE_MIME_TYPES = [f"image/{fmt}" for fmt in SUPPORTED_IMAGE_FORMATS]
 def build_image_url_items_from_slack_files(
     *,
     bot_token: str,
-    files: Optional[list[dict]],
+    files: list[dict] | None,
 ) -> list[dict]:
     """
     Build image URL items from Slack files.

@@ -3,7 +3,6 @@ This module provides logical functions for tools.
 """
 
 from importlib import import_module
-from typing import Optional
 
 from app.mcp.tools_logic import (
     AUTH_TYPE_ABBREVIATIONS,
@@ -28,7 +27,7 @@ def is_mcp_tool_name(name: str) -> bool:
     return MCP_TOOL_NAME_SEPARATOR_FOR_GEMINI in name or MCP_TOOL_NAME_SEPARATOR in name
 
 
-def load_classic_tools(module_name: Optional[str]) -> list[dict]:
+def load_classic_tools(module_name: str | None) -> list[dict]:
     """
     Load tools from a module.
 
