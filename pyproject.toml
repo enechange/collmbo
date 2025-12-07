@@ -5,7 +5,7 @@
 name = "collmbo-deps"
 version = "0.0.0"
 description = "Dependency management only"
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 dependencies = [
     "slack-bolt==1.27.0",
     "slack-sdk==3.39.0",
@@ -38,4 +38,9 @@ dev = [
     "types-PyYAML==6.0.12.20250915",
     "types-pytz==2025.2.0.20251108",
     "zizmor==1.18.0",
+]
+
+[tool.uv]
+override-dependencies = [
+    "grpcio==1.76.0",  # Force grpcio 1.76.0 for Python 3.14 wheel support
 ]
