@@ -354,7 +354,7 @@ requires-dist = [
     { name = "slack-bolt", specifier = "==1.27.0" },
     { name = "slack-sdk", specifier = "==3.39.0" },
     { name = "strands-agents", specifier = "==1.20.0" },
-    { name = "strands-agents-tools", specifier = "==0.2.17" },
+    { name = "strands-agents-tools", specifier = "==0.2.18" },
     { name = "ty", marker = "extra == 'dev'", specifier = "==0.0.1a34" },
     { name = "websockets" },
     { name = "zizmor", marker = "extra == 'dev'", specifier = "==1.18.0" },
@@ -1739,7 +1739,7 @@ wheels = [
 
 [[package]]
 name = "strands-agents-tools"
-version = "0.2.17"
+version = "0.2.18"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohttp" },
@@ -1760,9 +1760,9 @@ dependencies = [
     { name = "tzdata", marker = "sys_platform == 'win32'" },
     { name = "watchdog" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/9a/6f/83884be198bae71d99a79728d01f2e67d3bad2ba4679c9a793697cd05193/strands_agents_tools-0.2.17.tar.gz", hash = "sha256:3c939f2a509705ac479c58bf81ddc0a83f6794a32e18f07e1d674b3aa1dae030", size = 472711, upload-time = "2025-12-03T21:18:10.913Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ca/cb/9361d2b1edcb270f2375c77e61ac32a417be90068261c6c06412c9345738/strands_agents_tools-0.2.18.tar.gz", hash = "sha256:b5d9fe44180d14bc4168abb5a0c0ac9648b28d87210d0a5ff9f618e9a0de6d8c", size = 472973, upload-time = "2025-12-15T21:06:22.842Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/78/37/73a09c030f6cebbc8c24d509201011ef52dd835656155e170effcfe62d0b/strands_agents_tools-0.2.17-py3-none-any.whl", hash = "sha256:9e609b463fd093addc6db4f814a2cce255af2d1b56b02f94289c4def2f2cebd7", size = 312389, upload-time = "2025-12-03T21:18:09.05Z" },
+    { url = "https://files.pythonhosted.org/packages/24/d8/6fd3479f54ae501fc5031711ff50cf26db7d677bd032c9ddfdc0a9bcb8f7/strands_agents_tools-0.2.18-py3-none-any.whl", hash = "sha256:4d49f810729fc807aecb41054db053d107e210bbcac6882972f3edc8649175b4", size = 312676, upload-time = "2025-12-15T21:06:21.498Z" },
 ]
 
 [[package]]
