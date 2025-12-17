@@ -21,12 +21,17 @@
   "packageRules": [
     {
       "description": "Group astral-sh/uv across Dockerfile and GitHub Actions",
-      "matchPackagePatterns": ["astral-sh/uv", "ghcr.io/astral-sh/uv"],
-      "groupName": "astral-sh/uv"
+      "groupName": "astral-sh/uv",
+      "matchPackageNames": [
+        "/astral-sh/uv/",
+        "/ghcr.io/astral-sh/uv/"
+      ]
     },
     {
       "description": "Automerge patch updates",
-      "matchUpdateTypes": ["patch"],
+      "matchUpdateTypes": [
+        "patch"
+      ],
       "automerge": true
     }
   ]
