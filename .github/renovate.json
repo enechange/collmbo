@@ -7,7 +7,7 @@
     "dependencies"
   ],
   "registryAliases": {
-    "dhi.io": "https://dhi.io"
+    "dhi.io": "dhi.io"
   },
   "customManagers": [
     {
