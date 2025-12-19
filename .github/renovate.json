@@ -10,14 +10,16 @@
     {
       "customType": "regex",
       "fileMatch": ["(^|/)Dockerfile$"],
-      "matchStrings": ["FROM (?<depName>dhi\\.io/[^\\s:]+):(?<currentValue>[^\\s@]+)"],
+      "matchStrings": [
+        "FROM (?<depName>dhi\\.io/(?<packageName>[^\\s:]+)):(?<currentValue>[^\\s@]+)"
+      ],
       "datasourceTemplate": "docker",
       "registryUrlTemplate": "https://dhi.io"
     },
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "/^\\.github/workflows/.+\\.ya?ml$/"
+        "^\\.github/workflows/.+\\.ya?ml$"
       ],
       "matchStrings": [
         "go install (?<depName>.*?)@(?<currentValue>v[0-9.]+)"
