@@ -33,11 +33,24 @@
         "patch"
       ],
       "automerge": true
+    },
+    {
+      "description": "Force dhi.io to be treated as a private registry instead of Docker Hub",
+      "matchPackageNames": [
+        "dhi.io/**"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
+      "registryUrls": [
+        "https://dhi.io"
+      ]
     }
   ],
   "hostRules": [
     {
       "matchHost": "dhi.io",
+      "hostType": "docker",
       "username": "{{ secrets.MEND_DHI_USERNAME }}",
       "password": "{{ secrets.MEND_DHI_PASSWORD }}"
     }
