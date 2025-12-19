@@ -35,7 +35,7 @@
       "automerge": true
     },
     {
-      "description": "Force dhi.io lookup",
+      "description": "Force dhi.io lookup by datasource override",
       "matchPackageNames": [
         "dhi.io/python"
       ],
@@ -54,5 +54,14 @@
       "username": "{{ secrets.MEND_DHI_USERNAME }}",
       "password": "{{ secrets.MEND_DHI_PASSWORD }}"
     }
-  ]
+  ],
+  "docker": {
+    "hostRules": [
+      {
+        "matchHost": "dhi.io",
+        "username": "{{ secrets.MEND_DHI_USERNAME }}",
+        "password": "{{ secrets.MEND_DHI_PASSWORD }}"
+      }
+    ]
+  }
 }
