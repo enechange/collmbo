@@ -23,8 +23,8 @@
       "description": "Group astral-sh/uv across Dockerfile and GitHub Actions",
       "groupName": "astral-sh/uv",
       "matchPackageNames": [
-        "/astral-sh/uv/",
-        "/ghcr.io/astral-sh/uv/"
+        "astral-sh/uv",
+        "ghcr.io/astral-sh/uv"
       ]
     },
     {
