@@ -6,16 +6,10 @@
   "labels": [
     "dependencies"
   ],
+  "registryAliases": {
+    "dhi.io": "https://dhi.io"
+  },
   "customManagers": [
-    {
-      "customType": "regex",
-      "fileMatch": ["(^|/)Dockerfile$"],
-      "matchStrings": [
-        "FROM (?<depName>dhi\\.io/(?<packageName>[^\\s:]+)):(?<currentValue>[^\\s@]+)"
-      ],
-      "datasourceTemplate": "docker",
-      "registryUrlTemplate": "https://dhi.io"
-    },
     {
       "customType": "regex",
       "managerFilePatterns": [
@@ -28,11 +22,6 @@
     }
   ],
   "packageRules": [
-    {
-      "matchManagers": ["dockerfile"],
-      "matchPackageNames": ["dhi.io/**"],
-      "enabled": false
-    },
     {
       "description": "Group astral-sh/uv across Dockerfile and GitHub Actions",
       "groupName": "astral-sh/uv",
