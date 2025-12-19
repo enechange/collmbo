@@ -35,9 +35,9 @@
       "automerge": true
     },
     {
-      "description": "Force dhi.io to be treated as a private registry instead of Docker Hub",
+      "description": "Force dhi.io lookup",
       "matchPackageNames": [
-        "dhi.io/**"
+        "dhi.io/python"
       ],
       "matchDatasources": [
         "docker"
