@@ -23,8 +23,12 @@
   ],
   "packageRules": [
     {
-      "matchPackageNames": ["dhi.io/python"],
-      "description": "Enable lookup for dhi.io/python"
+      "description": "Group astral-sh/uv across Dockerfile and GitHub Actions",
+      "groupName": "astral-sh/uv",
+      "matchPackageNames": [
+        "astral-sh/uv",
+        "ghcr.io/astral-sh/uv"
+      ]
     },
     {
       "description": "Automerge minor and patch updates",
