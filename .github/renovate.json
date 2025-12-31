@@ -23,6 +23,10 @@
   ],
   "packageRules": [
     {
+      "matchPackageNames": ["dhi.io/python"],
+      "description": "Enable lookup for dhi.io/python"
+    },
+    {
       "description": "Automerge minor and patch updates",
       "matchUpdateTypes": [
         "minor",
