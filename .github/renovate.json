@@ -23,11 +23,15 @@
   ],
   "packageRules": [
     {
-      "description": "Group astral-sh/uv across Dockerfile and GitHub Actions",
-      "groupName": "astral-sh/uv",
+      "description": "Force dhi.io images to use the correct registry URL to prevent Docker Hub fallback",
       "matchPackageNames": [
-        "astral-sh/uv",
-        "ghcr.io/astral-sh/uv"
+        "dhi.io/**"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
+      "registryUrls": [
+        "https://dhi.io"
       ]
     },
     {
