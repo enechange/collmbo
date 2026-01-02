@@ -341,7 +341,7 @@ requires-dist = [
     { name = "slack-bolt", specifier = "==1.27.0" },
     { name = "slack-sdk", specifier = "==3.39.0" },
     { name = "strands-agents", specifier = "==1.20.0" },
-    { name = "strands-agents-tools", specifier = "==0.2.18" },
+    { name = "strands-agents-tools", specifier = "==0.2.19" },
     { name = "ty", marker = "extra == 'dev'", specifier = "==0.0.8" },
     { name = "websockets" },
     { name = "zizmor", marker = "extra == 'dev'", specifier = "==1.19.0" },
@@ -1675,7 +1675,7 @@ wheels = [
 
 [[package]]
 name = "strands-agents-tools"
-version = "0.2.18"
+version = "0.2.19"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohttp" },
@@ -1696,9 +1696,9 @@ dependencies = [
     { name = "tzdata", marker = "sys_platform == 'win32'" },
     { name = "watchdog" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ca/cb/9361d2b1edcb270f2375c77e61ac32a417be90068261c6c06412c9345738/strands_agents_tools-0.2.18.tar.gz", hash = "sha256:b5d9fe44180d14bc4168abb5a0c0ac9648b28d87210d0a5ff9f618e9a0de6d8c", size = 472973, upload-time = "2025-12-15T21:06:22.842Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/08/12/a6b309659b8f0009d37f64a25413f6199b603f056c64a045d4e724a0bfe6/strands_agents_tools-0.2.19.tar.gz", hash = "sha256:8dbfc0ac6be3e054a1b3ce10053046c2ead35f0df1f761a1d5be09c67442f814", size = 473522, upload-time = "2026-01-02T20:04:38.48Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/24/d8/6fd3479f54ae501fc5031711ff50cf26db7d677bd032c9ddfdc0a9bcb8f7/strands_agents_tools-0.2.18-py3-none-any.whl", hash = "sha256:4d49f810729fc807aecb41054db053d107e210bbcac6882972f3edc8649175b4", size = 312676, upload-time = "2025-12-15T21:06:21.498Z" },
+    { url = "https://files.pythonhosted.org/packages/89/5d/0a1853a3d92889a94af756f151d8ce64a359aa3f573a2690da3db37603a5/strands_agents_tools-0.2.19-py3-none-any.whl", hash = "sha256:6eddd6274b5e2827854d252c7939642192f467e1ab3b949ae8c68111ce4071e2", size = 312764, upload-time = "2026-01-02T20:04:36.43Z" },
 ]
 
 [[package]]
