@@ -334,7 +334,7 @@ requires-dist = [
     { name = "litellm", specifier = "==1.80.11" },
     { name = "mcp", specifier = "==1.25.0" },
     { name = "orjson" },
-    { name = "pillow", specifier = "==12.0.0" },
+    { name = "pillow", specifier = "==12.1.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = "==9.0.2" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = "==7.0.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = "==0.14.10" },
