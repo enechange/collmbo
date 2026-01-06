@@ -6,12 +6,14 @@
   "labels": [
     "dependencies"
   ],
+  "registryAliases": {
+    "dhi.io": "dhi.io"
+  },
   "customManagers": [
     {
       "customType": "regex",
-      "description": "Handle dhi.io images with digest support in Dockerfile",
       "managerFilePatterns": [
-        "^Dockerfile$"
+        "/Dockerfile/"
       ],
       "matchStrings": [
         "FROM (?<depName>dhi\\.io/(?<packageName>[^\\s@:]+)):(?<currentValue>[^\\s@]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?"
@@ -21,7 +23,6 @@
     },
     {
       "customType": "regex",
-      "description": "Handle go install in GitHub Actions",
       "managerFilePatterns": [
         "^\\.github/workflows/.+\\.ya?ml$"
       ],
@@ -33,12 +34,12 @@
   ],
   "packageRules": [
     {
-      "description": "Disable default dockerfile manager for dhi.io to prevent failed lookups",
-      "matchManagers": [
-        "dockerfile"
-      ],
+      "description": "Disable default dockerfile manager for dhi.io to prevent duplicate/failed lookups",
       "matchPackageNames": [
         "dhi.io/**"
+      ],
+      "matchManagers": [
+        "dockerfile"
       ],
       "enabled": false
     },
