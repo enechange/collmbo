@@ -33,7 +33,7 @@ dev = [
     "ty==0.0.9",
     "pytest==9.0.2",
     "pytest-cov==7.0.0",
-    "zizmor==1.19.0",
+    "zizmor==1.20.0",
 ]
 
 [tool.ruff.lint]
