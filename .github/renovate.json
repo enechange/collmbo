@@ -13,12 +13,13 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "^\\.github/workflows/.+\\.ya?ml$"
+        "/^\\.github/workflows/.+\\.ya?ml$/"
       ],
       "matchStrings": [
-        "go install (?<depName>.*?)@(?<currentValue>v[0-9.]+)"
+        "go install (?<depName>[^@]+)@(?<currentValue>v[0-9.]+)"
       ],
-      "datasourceTemplate": "go"
+      "datasourceTemplate": "go",
+      "versioningTemplate": "semver"
     }
   ],
   "packageRules": [
