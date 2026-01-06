@@ -6,25 +6,22 @@
   "labels": [
     "dependencies"
   ],
-  "registryAliases": {
-    "dhi.io": "dhi.io"
-  },
   "customManagers": [
     {
       "customType": "regex",
+      "description": "Handle go install in GitHub Actions",
       "managerFilePatterns": [
         "/^\\.github/workflows/.+\\.ya?ml$/"
       ],
       "matchStrings": [
         "go install (?<depName>[^@]+)@(?<currentValue>v[0-9.]+)"
       ],
-      "datasourceTemplate": "go",
-      "versioningTemplate": "semver"
+      "datasourceTemplate": "go"
     }
   ],
   "packageRules": [
     {
-      "description": "Force dhi.io images to use the correct registry URL to prevent Docker Hub fallback",
+      "description": "Force dhi.io images to use the correct registry URL",
       "matchPackageNames": [
         "dhi.io/**"
       ],
