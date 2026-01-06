@@ -13,17 +13,6 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "/Dockerfile/"
-      ],
-      "matchStrings": [
-        "FROM (?<depName>dhi\\.io/(?<packageName>[^\\s@:]+)):(?<currentValue>[^\\s@]+)(?:@(?<currentDigest>sha256:[a-f0-9]+))?"
-      ],
-      "datasourceTemplate": "docker",
-      "registryUrlTemplate": "https://dhi.io"
-    },
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
         "^\\.github/workflows/.+\\.ya?ml$"
       ],
       "matchStrings": [
@@ -34,14 +23,16 @@
   ],
   "packageRules": [
     {
-      "description": "Disable default dockerfile manager for dhi.io to prevent duplicate/failed lookups",
+      "description": "Force dhi.io images to use the correct registry URL to prevent Docker Hub fallback",
       "matchPackageNames": [
         "dhi.io/**"
       ],
-      "matchManagers": [
-        "dockerfile"
+      "matchDatasources": [
+        "docker"
       ],
-      "enabled": false
+      "registryUrls": [
+        "https://dhi.io"
+      ]
     },
     {
       "description": "Automerge minor and patch updates",
