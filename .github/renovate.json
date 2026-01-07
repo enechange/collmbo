@@ -7,6 +7,9 @@
     "dependencies"
   ],
   "rebaseWhen": "behind-base-branch",
+  "lockFileMaintenance": {
+    "enabled": true
+  },
   "customManagers": [
     {
       "customType": "regex",
