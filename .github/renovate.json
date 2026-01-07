@@ -37,10 +37,11 @@
       ]
     },
     {
-      "description": "Automerge minor and patch updates",
+      "description": "Automerge minor, patch, and lockFileMaintenance updates",
       "matchUpdateTypes": [
         "minor",
-        "patch"
+        "patch",
+        "lockFileMaintenance"
       ],
       "automerge": true
     }
