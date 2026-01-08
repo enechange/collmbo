@@ -3,7 +3,8 @@ name: Trivy security scan
 on:
   schedule:
     - cron: '0 0 * * *'
-  workflow_call:
+  registry_package:
+    types: [published]
   workflow_dispatch:
 
 jobs:
