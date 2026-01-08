@@ -27,13 +27,11 @@ jobs:
 
       - name: Setup mise
         uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
-        with:
-          working_directory: .github/workflows
 
       - name: Run actionlint
-        run: actionlint
+        run: mise exec --cd .github/workflows -- actionlint
 
       - name: Run ghalint
-        run: ghalint run
+        run: mise exec --cd .github/workflows -- ghalint run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
