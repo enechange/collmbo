@@ -25,16 +25,10 @@ jobs:
         with:
           dockerfile: Dockerfile
 
-      - name: Set up Go
-        uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
+      - name: Setup mise
+        uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
         with:
-          go-version: stable
-
-      - name: Install actionlint
-        run: go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.10
-
-      - name: Install ghalint
-        run: go install github.com/suzuki-shunsuke/ghalint/cmd/ghalint@v1.5.4
+          working_directory: .github/workflows
 
       - name: Run actionlint
         run: actionlint

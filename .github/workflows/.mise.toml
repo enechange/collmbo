@@ -1,0 +1,3 @@
+[tools]
+actionlint = "1.7.10"
+ghalint = "1.5.4"
