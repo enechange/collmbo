@@ -26,7 +26,7 @@ jobs:
           version: "0.9.22"
 
       - name: Install Python
-        run: uv python install 3.14
+        run: uv python install
 
       - name: Run validation script
         run: bash validate.sh ci
