@@ -49,7 +49,7 @@ jobs:
       - name: Check for new HIGH/CRITICAL vulnerabilities
         id: check-new
         run: |
-          jq -r '.runs[].results[]?.ruleId // empty' previous-sarif.json | sort -u > previous-cves.txt
+          jq -r '.runs[].results[] | select(.level == "error") | .ruleId' previous-sarif.json | sort -u > previous-cves.txt
           jq -r '.runs[].results[] | select(.level == "error") | .ruleId' \
             trivy-results.sarif | sort -u > current-high-cves.txt
           comm -23 current-high-cves.txt previous-cves.txt > new-cves.txt
