@@ -10,19 +10,6 @@
   "lockFileMaintenance": {
     "enabled": true
   },
-  "customManagers": [
-    {
-      "customType": "regex",
-      "description": "Handle go install in GitHub Actions",
-      "managerFilePatterns": [
-        "/^\\.github/workflows/.+\\.ya?ml$/"
-      ],
-      "matchStrings": [
-        "go install (?<depName>[^@]+)@(?<currentValue>v[0-9.]+)"
-      ],
-      "datasourceTemplate": "go"
-    }
-  ],
   "packageRules": [
     {
       "description": "Force dhi.io images to use the correct registry URL",
