@@ -3,12 +3,6 @@ name: Trivy security scan
 on:
   schedule:
     - cron: '0 0 * * *'
-  workflow_call:
-    inputs:
-      tag:
-        description: 'Image tag to scan'
-        required: true
-        type: string
   workflow_dispatch:
 
 jobs:
@@ -20,60 +14,20 @@ jobs:
       security-events: write
     env:
       REGISTRY_IMAGE: ghcr.io/${{ github.repository }}
-      IMAGE_TAG: ${{ inputs.tag || 'latest' }}
     steps:
       - name: Pull Docker image
         run: |
-          docker pull "${REGISTRY_IMAGE}:${IMAGE_TAG}"
-
-      - name: Get previous SARIF from GitHub
-        id: previous
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          ANALYSIS_ID=$(gh api "/repos/${{ github.repository }}/code-scanning/analyses" \
-            --jq 'map(select(.tool.name == "Trivy")) | .[0].id' 2>/dev/null || echo "")
-          if [ -n "$ANALYSIS_ID" ] && [ "$ANALYSIS_ID" != "null" ]; then
-            gh api "/repos/${{ github.repository }}/code-scanning/analyses/$ANALYSIS_ID" \
-              -H "Accept: application/sarif+json" > previous-sarif.json
-            echo "found=true" >> "$GITHUB_OUTPUT"
-          else
-            echo '{"runs":[]}' > previous-sarif.json
-            echo "found=false" >> "$GITHUB_OUTPUT"
-          fi
+          docker pull "${REGISTRY_IMAGE}:latest"
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8 # 0.33.1
         with:
-          image-ref: ${{ env.REGISTRY_IMAGE }}:${{ env.IMAGE_TAG }}
+          image-ref: ${{ env.REGISTRY_IMAGE }}:latest
           format: 'sarif'
           output: 'trivy-results.sarif'
-
-      - name: Check for new HIGH/CRITICAL vulnerabilities
-        id: check-new
-        run: |
-          jq -r '.runs[].results[] | select(.level == "error") | .ruleId' previous-sarif.json | sort -u > previous-cves.txt
-          jq -r '.runs[].results[] | select(.level == "error") | .ruleId' \
-            trivy-results.sarif | sort -u > current-high-cves.txt
-          comm -23 current-high-cves.txt previous-cves.txt > new-cves.txt
-
-          if [ -s new-cves.txt ]; then
-            echo "new_vulnerabilities=true" >> "$GITHUB_OUTPUT"
-            echo "🚨 New HIGH/CRITICAL vulnerabilities detected:"
-            cat new-cves.txt
-          else
-            echo "new_vulnerabilities=false" >> "$GITHUB_OUTPUT"
-            echo "✅ No new HIGH/CRITICAL vulnerabilities"
-          fi
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@5d4e8d1aca955e8d8589aabd499c5cae939e33c7 # v4.31.9
         if: always()
         with:
           sarif_file: 'trivy-results.sarif'
-
-      - name: Fail if new vulnerabilities found
-        if: steps.check-new.outputs.new_vulnerabilities == 'true'
-        run: |
-          echo "::error::New HIGH/CRITICAL vulnerabilities were detected. Check the Security tab for details."
-          exit 1

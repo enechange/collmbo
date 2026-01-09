@@ -8,7 +8,8 @@
   ],
   "rebaseWhen": "behind-base-branch",
   "lockFileMaintenance": {
-    "enabled": true
+    "enabled": true,
+    "schedule": ["before 5am"]
   },
   "packageRules": [
     {
