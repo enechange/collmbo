@@ -3,8 +3,12 @@ name: Trivy security scan
 on:
   schedule:
     - cron: '0 0 * * *'
-  registry_package:
-    types: [published]
+  workflow_call:
+    inputs:
+      tag:
+        description: 'Image tag to scan'
+        required: true
+        type: string
   workflow_dispatch:
 
 jobs:
@@ -14,12 +18,13 @@ jobs:
     permissions:
       contents: read
       security-events: write
+    env:
+      REGISTRY_IMAGE: ghcr.io/${{ github.repository }}
+      IMAGE_TAG: ${{ inputs.tag || 'latest' }}
     steps:
       - name: Pull Docker image
-        env:
-          REGISTRY_IMAGE: ghcr.io/${{ github.repository }}
         run: |
-          docker pull "${REGISTRY_IMAGE}:latest"
+          docker pull "${REGISTRY_IMAGE}:${IMAGE_TAG}"
 
       - name: Get previous SARIF from GitHub
         id: previous
@@ -39,10 +44,8 @@ jobs:
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8 # 0.33.1
-        env:
-          REGISTRY_IMAGE: ghcr.io/${{ github.repository }}
         with:
-          image-ref: ${{ env.REGISTRY_IMAGE }}:latest
+          image-ref: ${{ env.REGISTRY_IMAGE }}:${{ env.IMAGE_TAG }}
           format: 'sarif'
           output: 'trivy-results.sarif'
 
