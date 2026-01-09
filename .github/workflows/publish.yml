@@ -144,7 +144,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
-      contents: write
       id-token: write
       packages: write
     needs:
@@ -172,6 +171,7 @@ jobs:
           image: ${{ env.REGISTRY_IMAGE }}@${{ needs.merge.outputs.digest }}
           format: spdx-json
           output-file: sbom.spdx.json
+          upload-release-assets: false
 
       - name: Attest SBOM
         env:
