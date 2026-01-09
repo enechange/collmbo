@@ -137,11 +137,3 @@ jobs:
         run: |
           docker buildx imagetools inspect "${REGISTRY_IMAGE}:${STEPS_META_OUTPUTS_VERSION}"
 
-  scan:
-    needs: merge
-    uses: ./.github/workflows/trivy.yml
-    with:
-      tag: ${{ needs.merge.outputs.version }}
-    permissions:
-      contents: read
-      security-events: write
