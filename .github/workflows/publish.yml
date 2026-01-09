@@ -94,6 +94,7 @@ jobs:
       - build
     outputs:
       version: ${{ steps.meta.outputs.version }}
+      digest: ${{ steps.digest.outputs.digest }}
     steps:
       - name: Download digests
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
@@ -131,9 +132,65 @@ jobs:
           readarray -t digest_array < <(printf "${REGISTRY_IMAGE}@sha256:%s\n" *)
           docker buildx imagetools create "${tag_args[@]}" "${digest_array[@]}"
 
-      - name: Inspect image
+      - name: Get image digest
+        id: digest
         env:
           STEPS_META_OUTPUTS_VERSION: ${{ steps.meta.outputs.version }}
         run: |
-          docker buildx imagetools inspect "${REGISTRY_IMAGE}:${STEPS_META_OUTPUTS_VERSION}"
+          digest=$(docker buildx imagetools inspect "${REGISTRY_IMAGE}:${STEPS_META_OUTPUTS_VERSION}" --format '{{json .Manifest.Digest}}' | tr -d '"')
+          echo "digest=${digest}" >> "$GITHUB_OUTPUT"
 
+  sign:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      id-token: write
+      packages: write
+    needs:
+      - merge
+    steps:
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@3454372f43399081ed03b604cb2d021dabca52bb # v3.8.2
+
+      - name: Sign the image
+        env:
+          DIGEST: ${{ needs.merge.outputs.digest }}
+        run: |
+          cosign sign --yes "${REGISTRY_IMAGE}@${DIGEST}"
+
+      - name: Generate SBOM
+        uses: anchore/sbom-action@e11c554f704a0b820cbf8c51673f6945e0731532 # v0.20.0
+        with:
+          image: ${{ env.REGISTRY_IMAGE }}@${{ needs.merge.outputs.digest }}
+          format: spdx-json
+          output-file: sbom.spdx.json
+
+      - name: Attest SBOM
+        env:
+          DIGEST: ${{ needs.merge.outputs.digest }}
+        run: |
+          cosign attest --yes --predicate sbom.spdx.json --type spdxjson "${REGISTRY_IMAGE}@${DIGEST}"
+
+      - name: Verify signature
+        env:
+          DIGEST: ${{ needs.merge.outputs.digest }}
+        run: |
+          cosign verify "${REGISTRY_IMAGE}@${DIGEST}" \
+            --certificate-identity-regexp='https://github.com/enechange/collmbo/.*' \
+            --certificate-oidc-issuer='https://token.actions.githubusercontent.com'
+
+      - name: Verify SBOM attestation
+        env:
+          DIGEST: ${{ needs.merge.outputs.digest }}
+        run: |
+          cosign verify-attestation "${REGISTRY_IMAGE}@${DIGEST}" \
+            --type spdxjson \
+            --certificate-identity-regexp='https://github.com/enechange/collmbo/.*' \
+            --certificate-oidc-issuer='https://token.actions.githubusercontent.com'
