@@ -178,3 +178,11 @@ jobs:
           DIGEST: ${{ needs.merge.outputs.digest }}
         run: |
           cosign attest --yes --predicate sbom.spdx.json --type spdxjson "${REGISTRY_IMAGE}@${DIGEST}"
+
+  scan:
+    needs:
+      - merge
+    permissions:
+      contents: read
+      security-events: write
+    uses: ./.github/workflows/trivy.yml
