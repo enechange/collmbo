@@ -35,8 +35,24 @@ dev = [
     "pytest-cov==7.0.0",
 ]
 
+[tool.ruff]
+include = ["*.py", "app/**/*.py", "tests/**/*.py"]
+
 [tool.ruff.lint]
 extend-select = ["B", "I", "UP"]
+
+[tool.ty.src]
+include = [".", "app", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["main", "app"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
 
 [tool.uv]
 override-dependencies = [
