@@ -3,18 +3,14 @@ set -e
 
 uv sync --extra dev
 
-if [[ "$1" == "ci" ]]; then
-  uv run ruff check ./*.py ./app/*.py ./app/mcp/*.py ./tests/*.py ./tests/mcp/*.py
-  uv run ruff format --check ./*.py ./app/*.py ./app/mcp/*.py ./tests/*.py ./tests/mcp/*.py
+if [[ -n "$CI" ]]; then
+  uv run ruff check
+  uv run ruff format --check
+  uv run ty check
+  uv run pytest --cov --cov-report=term --cov-report=xml
 else
-  uv run ruff check --fix ./*.py ./app/*.py ./app/mcp/*.py ./tests/*.py ./tests/mcp/*.py
-  uv run ruff format ./*.py ./app/*.py ./app/mcp/*.py ./tests/*.py ./tests/mcp/*.py
-fi
-
-uv run ty check ./*.py ./app/*.py ./app/mcp/*.py ./tests/*.py ./tests/mcp/*.py
-
-if [[ "$1" == "ci" ]]; then
-  uv run pytest --cov=main --cov=app --cov-branch --cov-report=term --cov-report=xml
-else
-  uv run pytest --cov=main --cov=app --cov-branch --cov-report=term
+  uv run ruff check --fix
+  uv run ruff format
+  uv run ty check
+  uv run pytest --cov --cov-report=term
 fi
