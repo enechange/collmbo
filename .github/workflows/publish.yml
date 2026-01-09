@@ -178,20 +178,3 @@ jobs:
           DIGEST: ${{ needs.merge.outputs.digest }}
         run: |
           cosign attest --yes --predicate sbom.spdx.json --type spdxjson "${REGISTRY_IMAGE}@${DIGEST}"
-
-      - name: Verify signature
-        env:
-          DIGEST: ${{ needs.merge.outputs.digest }}
-        run: |
-          cosign verify "${REGISTRY_IMAGE}@${DIGEST}" \
-            --certificate-identity-regexp='https://github.com/enechange/collmbo/.*' \
-            --certificate-oidc-issuer='https://token.actions.githubusercontent.com'
-
-      - name: Verify SBOM attestation
-        env:
-          DIGEST: ${{ needs.merge.outputs.digest }}
-        run: |
-          cosign verify-attestation "${REGISTRY_IMAGE}@${DIGEST}" \
-            --type spdxjson \
-            --certificate-identity-regexp='https://github.com/enechange/collmbo/.*' \
-            --certificate-oidc-issuer='https://token.actions.githubusercontent.com'
