@@ -25,6 +25,26 @@
       ]
     },
     {
+      "description": "Group GitHub Actions updates",
+      "matchManagers": ["github-actions"],
+      "groupName": "github-actions"
+    },
+    {
+      "description": "Group Docker image updates",
+      "matchManagers": ["dockerfile"],
+      "groupName": "docker"
+    },
+    {
+      "description": "Group Python dependencies",
+      "matchManagers": ["pep621"],
+      "groupName": "python-dependencies"
+    },
+    {
+      "description": "Group mise tool updates",
+      "matchManagers": ["mise"],
+      "groupName": "mise-tools"
+    },
+    {
       "description": "Automerge minor, patch, and lockFileMaintenance updates",
       "matchUpdateTypes": [
         "minor",
