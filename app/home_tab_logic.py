@@ -133,8 +133,7 @@ def format_server_display(
     if expires_at:
         expiry_time = format_timestamp(expires_at, user_tz)
         return f"*{server_name}* (expires at {expiry_time})"
-    else:
-        return f"*{server_name}*"
+    return f"*{server_name}*"
 
 
 def build_home_tab_blocks(

@@ -2,6 +2,8 @@
 Service functions for home tab that have side effects or external dependencies.
 """
 
+import logging
+
 from slack_sdk import WebClient
 
 from app.home_tab_logic import build_home_tab_view
@@ -34,7 +36,7 @@ def get_user_timezone(client: WebClient, user_id: str) -> str:
             if user_data and hasattr(user_data, "get"):
                 return user_data.get("tz", "UTC")
     except Exception:
-        pass
+        logging.debug("Failed to get user timezone")
     return "UTC"
 
 

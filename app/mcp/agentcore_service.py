@@ -81,7 +81,7 @@ def shutdown_all_oauth_pollers() -> None:
         try:
             poller.cancel()
         except Exception:
-            pass
+            logging.debug("Failed to cancel OAuth poller")
     active_oauth_pollers.clear()
 
 

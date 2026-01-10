@@ -36,8 +36,7 @@ def build_mcp_tool_name(
         return MCP_TOOL_NAME_SEPARATOR_FOR_GEMINI.join(
             [auth_abbrev, str(server_index), spec_name]
         )
-    else:
-        return MCP_TOOL_NAME_SEPARATOR.join([auth_abbrev, str(server_index), spec_name])
+    return MCP_TOOL_NAME_SEPARATOR.join([auth_abbrev, str(server_index), spec_name])
 
 
 def transform_mcp_spec_to_classic_tool(

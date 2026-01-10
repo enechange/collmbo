@@ -31,7 +31,7 @@ def load_mcp_config() -> dict:
     config_data = None
     path = Path(CONFIG_FILE_PATH)
     if path.exists():
-        with open(path, encoding="utf-8") as f:
+        with path.open(encoding="utf-8") as f:
             config_data = yaml.safe_load(f)
     return normalize_mcp_config(config_data)
 

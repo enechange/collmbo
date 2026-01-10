@@ -118,7 +118,7 @@ def register_signal_handlers(slack_handler: SocketModeHandler) -> None:
         try:
             slack_handler.close()
         except Exception:
-            pass
+            logging.debug("Failed to close slack handler")
         sys.exit(0)
 
     for signum in (signal.SIGTERM, signal.SIGINT):
