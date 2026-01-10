@@ -1,9 +1,14 @@
-name: Trivy security scan
+name: Trivy
 
 on:
+  push:
+    branches: [main]
   schedule:
     - cron: '0 0 * * *'
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   scan:
@@ -12,17 +17,27 @@ jobs:
     permissions:
       contents: read
       security-events: write
-    env:
-      REGISTRY_IMAGE: ghcr.io/${{ github.repository }}
     steps:
-      - name: Pull Docker image
+      - name: Checkout code
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+
+      - name: Login to Docker Hardened Images
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
+        with:
+          registry: dhi.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Docker image
         run: |
-          docker pull "${REGISTRY_IMAGE}:latest"
+          docker build -t trivy-scan:${{ github.sha }} .
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8 # 0.33.1
         with:
-          image-ref: ${{ env.REGISTRY_IMAGE }}:latest
+          image-ref: trivy-scan:${{ github.sha }}
           format: 'sarif'
           output: 'trivy-results.sarif'
           scanners: 'vuln'
