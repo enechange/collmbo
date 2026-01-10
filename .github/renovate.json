@@ -45,10 +45,11 @@
       "groupName": "mise-tools"
     },
     {
-      "description": "Automerge minor, patch, and lockFileMaintenance updates",
+      "description": "Automerge minor, patch, digest, and lockFileMaintenance updates",
       "matchUpdateTypes": [
         "minor",
         "patch",
+        "digest",
         "lockFileMaintenance"
       ],
       "automerge": true
