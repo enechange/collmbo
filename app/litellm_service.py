@@ -2,6 +2,7 @@
 This module provides functions to interact with the LiteLLM API.
 """
 
+import logging
 import os
 import threading
 import time
@@ -307,7 +308,7 @@ def handle_litellm_stream(
             try:
                 t.join()
             except Exception:
-                pass
+                logging.debug("Failed to join thread")
 
     # Final update to remove the loading character after stream ends
     if len(assistant_message["content"]) > 0:
