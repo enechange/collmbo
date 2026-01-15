@@ -297,7 +297,19 @@ def build_oauth_servers_section(mcp_servers: list[dict], user_tz: str) -> list[B
                 SectionBlock(text=MarkdownTextObject(text="⏳ Fetching tools..."))
             )
         elif auth_url and auth_url != OAUTH_URL_PROCESSING:
-            pass
+            oauth_verification_code_display = oauth_verification_code or ""
+            auth_text = f"🔗 <{auth_url}|Click to authorize> / Code: `{oauth_verification_code_display}`"
+            blocks.append(SectionBlock(text=MarkdownTextObject(text=auth_text)))
+            blocks.append(
+                ActionsBlock(
+                    elements=[
+                        ButtonElement(
+                            text=PlainTextObject(text="Cancel"),
+                            action_id=f"{CANCEL_MCP_OAUTH_ACTION_PREFIX}{index}",
+                        )
+                    ]
+                )
+            )
         elif auth_url == OAUTH_URL_PROCESSING:
             blocks.append(
                 SectionBlock(text=MarkdownTextObject(text="⏳ Please wait..."))
@@ -320,21 +332,6 @@ def build_oauth_servers_section(mcp_servers: list[dict], user_tz: str) -> list[B
                             text=PlainTextObject(text="Enable"),
                             action_id=f"{ENABLE_MCP_OAUTH_ACTION_PREFIX}{index}",
                             style="primary",
-                        )
-                    ]
-                )
-            )
-
-        if auth_url and auth_url != OAUTH_URL_PROCESSING:
-            oauth_verification_code_display = oauth_verification_code or ""
-            auth_text = f"🔗 <{auth_url}|Click to authorize> / Code: `{oauth_verification_code_display}`"
-            blocks.append(SectionBlock(text=MarkdownTextObject(text=auth_text)))
-            blocks.append(
-                ActionsBlock(
-                    elements=[
-                        ButtonElement(
-                            text=PlainTextObject(text="Cancel"),
-                            action_id=f"{CANCEL_MCP_OAUTH_ACTION_PREFIX}{index}",
                         )
                     ]
                 )
