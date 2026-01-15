@@ -10,6 +10,5 @@ COPY --from=builder /build/.venv /app/.venv
 ENV PATH="/app/.venv/bin:$PATH"
 COPY config/ /app/config/
 COPY main.py /app/
-COPY app/*.py /app/app/
-COPY app/mcp/*.py /app/app/mcp/
+COPY app/ /app/app/
 ENTRYPOINT [ "python", "main.py" ]
