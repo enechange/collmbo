@@ -100,9 +100,9 @@ def format_timestamp(timestamp: int, user_tz: str) -> str:
         dt = datetime.fromtimestamp(timestamp, tz=UTC)
         try:
             user_timezone = ZoneInfo(user_tz)
-            dt = dt.astimezone(user_timezone)
         except (ZoneInfoNotFoundError, AttributeError):
-            pass
+            user_timezone = UTC
+        dt = dt.astimezone(user_timezone)
         return dt.strftime("%H:%M:%S")
     except (ValueError, TypeError, OSError):
         return ""
