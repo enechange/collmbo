@@ -10,28 +10,28 @@ from app.litellm_logic import extract_delta_content, is_final_chunk
         (
             ModelResponse(
                 choices=[StreamingChoices(delta=Delta(content="Hello"))],
-                object="chat.completion.chunk",
+                stream=True,
             ),
             "Hello",
         ),
         (
             ModelResponse(
                 choices=[StreamingChoices(delta=Delta(tool_calls=[]))],
-                object="chat.completion.chunk",
+                stream=True,
             ),
             None,
         ),
         (
             ModelResponse(
                 choices=[StreamingChoices(delta=None)],
-                object="chat.completion.chunk",
+                stream=True,
             ),
             None,
         ),
         (
             ModelResponse(
                 choices=[],
-                object="chat.completion.chunk",
+                stream=True,
             ),
             None,
         ),
@@ -49,21 +49,21 @@ def test_extract_delta_content(chunk, expected):
         (
             ModelResponse(
                 choices=[StreamingChoices(delta=Delta(content="Hello"))],
-                object="chat.completion.chunk",
+                stream=True,
             ),
             False,
         ),
         (
             ModelResponse(
                 choices=[StreamingChoices(delta=Delta(), finish_reason="stop")],
-                object="chat.completion.chunk",
+                stream=True,
             ),
             True,
         ),
         (
             ModelResponse(
                 choices=[StreamingChoices(delta=None, finish_reason="length")],
-                object="chat.completion.chunk",
+                stream=True,
             ),
             True,
         ),
