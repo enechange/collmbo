@@ -1477,14 +1477,14 @@ wheels = [
 
 [[package]]
 name = "starlette"
-version = "0.52.0"
+version = "0.52.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/51/37/b1006d61b07385ca826b2f6a1d37d4708b8870326b5f9a2426f3a76bb5ab/starlette-0.52.0.tar.gz", hash = "sha256:04f1ceafbda34cd571512b799650554d4f0dc638f09128e44ea521f32486f170", size = 2653643, upload-time = "2026-01-18T10:07:08.498Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c4/68/79977123bb7be889ad680d79a40f339082c1978b5cfcf62c2d8d196873ac/starlette-0.52.1.tar.gz", hash = "sha256:834edd1b0a23167694292e94f597773bc3f89f362be6effee198165a35d62933", size = 2653702, upload-time = "2026-01-18T13:34:11.062Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6c/cd/b6aa3477a731e89f9a52dcb08afda8d21fcdd9ab6b62bba2a4d956b8f914/starlette-0.52.0-py3-none-any.whl", hash = "sha256:ae047dccdfedb2dd9f86efe182e259eb72bcf50e7cd49309a46c906160df2545", size = 74238, upload-time = "2026-01-18T10:07:06.678Z" },
+    { url = "https://files.pythonhosted.org/packages/81/0d/13d1d239a25cbfb19e740db83143e95c772a1fe10202dda4b76792b114dd/starlette-0.52.1-py3-none-any.whl", hash = "sha256:0029d43eb3d273bc4f83a08720b4912ea4b071087a3b48db01b7c839f7954d74", size = 74272, upload-time = "2026-01-18T13:34:09.188Z" },
 ]
 
 [[package]]
