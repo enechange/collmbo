@@ -6,7 +6,7 @@
   "labels": [
     "dependencies"
   ],
-  "rebaseWhen": "behind-base-branch",
+  "rebaseWhen": "conflicted",
   "lockFileMaintenance": {
     "enabled": true,
     "schedule": ["after 6pm and before 8pm"]
