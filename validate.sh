@@ -22,6 +22,8 @@ actionlint
 ghalint run
 if [[ -n "$CI" ]]; then
   zizmor .github/workflows/
+  pinact run --check
 else
   zizmor --fix .github/workflows/
+  pinact run
 fi
