@@ -11,39 +11,37 @@
   "prConcurrentLimit": 0,
   "lockFileMaintenance": {
     "enabled": true,
-    "schedule": ["at any time"]
+    "schedule": [
+      "at any time"
+    ]
   },
   "packageRules": [
     {
-      "description": "Force dhi.io images to use the correct registry URL",
-      "matchPackageNames": [
-        "dhi.io/**"
-      ],
-      "matchDatasources": [
-        "docker"
-      ],
-      "registryUrls": [
-        "https://dhi.io"
-      ]
-    },
-    {
       "description": "Group GitHub Actions updates",
-      "matchManagers": ["github-actions"],
+      "matchManagers": [
+        "github-actions"
+      ],
       "groupName": "github-actions"
     },
     {
       "description": "Group Docker image updates",
-      "matchManagers": ["dockerfile"],
+      "matchManagers": [
+        "dockerfile"
+      ],
       "groupName": "docker"
     },
     {
       "description": "Group Python dependencies",
-      "matchManagers": ["pep621"],
+      "matchManagers": [
+        "pep621"
+      ],
       "groupName": "python-dependencies"
     },
     {
       "description": "Group mise tool updates",
-      "matchManagers": ["mise"],
+      "matchManagers": [
+        "mise"
+      ],
       "groupName": "mise-tools"
     },
     {
