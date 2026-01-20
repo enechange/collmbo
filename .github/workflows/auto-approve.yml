@@ -10,6 +10,13 @@ jobs:
       pull-requests: write
     if: github.event.pull_request.user.login == 'enechange-renovate[bot]'
     steps:
-      - uses: hmarr/auto-approve-action@8f929096a962e83ccdfa8afcf855f39f12d4dac7 # v4
+      - uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
         with:
-          review-message: "Auto approved automated PR"
+          script: |
+            await github.rest.pulls.createReview({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              event: 'APPROVE',
+              body: 'Auto approved automated PR'
+            })
