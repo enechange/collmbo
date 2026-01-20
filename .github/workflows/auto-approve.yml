@@ -1,0 +1,15 @@
+name: Auto approve
+
+on: pull_request
+
+jobs:
+  auto-approve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    if: github.event.pull_request.user.login == 'enechange-renovate[bot]'
+    steps:
+      - uses: hmarr/auto-approve-action@8f929096a962e83ccdfa8afcf855f39f12d4dac7 # v4
+        with:
+          review-message: "Auto approved automated PR"
