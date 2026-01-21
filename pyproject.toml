@@ -14,7 +14,7 @@ dependencies = [
     "httpx==0.28.1",
     "bedrock-agentcore==1.2.0",
     "mcp==1.25.0",
-    "strands-agents==1.22.0",
+    "strands-agents==1.23.0",
     "strands-agents-tools==0.2.19",
 ]
 
