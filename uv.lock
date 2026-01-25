@@ -1685,11 +1685,11 @@ wheels = [
 
 [[package]]
 name = "wcwidth"
-version = "0.3.4"
+version = "0.3.5"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/7d/67/e17c825c9908f6e517250e9bc5c4d6b4163af26ed99f098bba946023db9d/wcwidth-0.3.4.tar.gz", hash = "sha256:73d05c07549b4639b7956cd65a9edd35245d8700c0d3467fa723ad4b16dfe815", size = 234099, upload-time = "2026-01-25T01:06:34.252Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/95/fc/44799c4a51ff0da0de0ff27e68c9dea3454f3d9bf15ffb606aeb6943e672/wcwidth-0.3.5.tar.gz", hash = "sha256:7c3463f312540cf21ddd527ea34f3ae95c057fa191aa7a9e043898d20d636e59", size = 234185, upload-time = "2026-01-25T04:37:23.942Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/95/29/1b5d7d370736d7d61111533f9beece5dc55fe997511b9ae2c29457363974/wcwidth-0.3.4-py3-none-any.whl", hash = "sha256:28bd19308af9e09e4132840740b99e39c04db5a8b8273644ee5eaa4baf928643", size = 86635, upload-time = "2026-01-25T01:06:32.55Z" },
+    { url = "https://files.pythonhosted.org/packages/7a/86/7f461495625145a99d60f14cdac142a11db5d501c86d48aad165575d1e06/wcwidth-0.3.5-py3-none-any.whl", hash = "sha256:b0a0245130566939a24ab8432e625b38272fbc62ecbe5aecbdcb50b8f02ce993", size = 86681, upload-time = "2026-01-25T04:37:22.585Z" },
 ]
 
 [[package]]
