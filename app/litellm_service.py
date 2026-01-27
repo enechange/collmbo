@@ -17,12 +17,12 @@ from slack_sdk.web import SlackResponse, WebClient
 from app.env import (
     LITELLM_CALLBACK_MODULE_NAME,
     LITELLM_DROP_PARAMS,
-    LITELLM_MAX_TOKENS,
-    LITELLM_MODEL,
-    LITELLM_TEMPERATURE,
+    LLM_MAX_TOKENS,
+    LLM_MODEL,
+    LLM_TEMPERATURE,
+    SLACK_FORMATTING_ENABLED,
     SLACK_LOADING_CHARACTER,
     SLACK_UPDATE_TEXT_BUFFER_SIZE,
-    TRANSLATE_MARKDOWN,
 )
 from app.litellm_logic import extract_delta_content, is_final_chunk
 from app.message_logic import (
@@ -67,7 +67,7 @@ def reply_to_slack_with_litellm(
         None
     """
     stream = start_litellm_stream(
-        temperature=LITELLM_TEMPERATURE,
+        temperature=LLM_TEMPERATURE,
         messages=messages,
         user=user_id,
         channel=channel,
@@ -109,7 +109,7 @@ def call_litellm_completion(
         Union[ModelResponse, CustomStreamWrapper]: The response from the API.
     """
     kwargs = {
-        "model": LITELLM_MODEL,
+        "model": LLM_MODEL,
         "messages": messages,
         "top_p": 1,
         "n": 1,
@@ -155,7 +155,7 @@ def start_litellm_stream(
     """
     response = call_litellm_completion(
         messages=messages,
-        max_tokens=LITELLM_MAX_TOKENS,
+        max_tokens=LLM_MAX_TOKENS,
         temperature=temperature,
         user=user,
         stream=True,
@@ -383,7 +383,7 @@ def update_reply_text(
     if not wip_message:
         return
     assistant_reply_text = format_assistant_reply_for_slack(assistant_content)
-    if TRANSLATE_MARKDOWN:
+    if SLACK_FORMATTING_ENABLED:
         assistant_reply_text = convert_markdown_to_mrkdwn(assistant_reply_text)
     wip_message["text"] = assistant_reply_text
     text = assistant_reply_text

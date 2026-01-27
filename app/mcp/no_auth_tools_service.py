@@ -10,7 +10,7 @@ from functools import partial
 from mcp.client.streamable_http import streamablehttp_client
 from strands.tools.mcp.mcp_client import MCPClient
 
-from app.env import LITELLM_MODEL
+from app.env import LLM_MODEL
 from app.mcp.config_service import get_no_auth_servers
 from app.mcp.tools_logic import transform_mcp_spec_to_classic_tool
 
@@ -37,7 +37,7 @@ def load_no_auth_mcp_tools() -> None:
                     mcp_spec=tool.tool_spec,
                     auth_type="none",
                     server_index=idx,
-                    model=LITELLM_MODEL,
+                    model=LLM_MODEL,
                 )
                 for tool in tools
             )

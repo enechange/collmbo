@@ -24,7 +24,7 @@ from app.bolt_listeners import (
 )
 from app.bolt_logic import append_rate_limit_retry_handler
 from app.bolt_middlewares import before_authorize, set_locale
-from app.env import SLACK_APP_LOG_LEVEL, USE_SLACK_LANGUAGE
+from app.env import SLACK_APP_LOG_LEVEL, USE_SLACK_LOCALE
 from app.mcp.agentcore_service import shutdown_all_oauth_pollers
 from app.mcp.no_auth_tools_service import start_no_auth_mcp_tools_refresh_loop
 
@@ -42,7 +42,7 @@ def main() -> None:
     """
     logging.basicConfig(level=SLACK_APP_LOG_LEVEL)
 
-    app = create_bolt_app(os.environ["SLACK_BOT_TOKEN"], USE_SLACK_LANGUAGE)
+    app = create_bolt_app(os.environ["SLACK_BOT_TOKEN"], USE_SLACK_LOCALE)
     append_rate_limit_retry_handler(app.client.retry_handlers, 2)
 
     start_no_auth_mcp_tools_refresh_loop()
@@ -52,13 +52,13 @@ def main() -> None:
     slack_handler.start()
 
 
-def create_bolt_app(slack_bot_token: str, use_slack_language: bool) -> App:
+def create_bolt_app(slack_bot_token: str, use_slack_locale: bool) -> App:
     """
     Create and configure a Slack Bolt app instance.
 
     Args:
         slack_bot_token (str): The Slack bot token for authentication.
-        use_slack_language (bool): Whether to use Slack's language preference.
+        use_slack_locale (bool): Whether to use Slack's locale preference.
 
     Returns:
         App: The configured Slack Bolt app instance.
@@ -81,7 +81,7 @@ def create_bolt_app(slack_bot_token: str, use_slack_language: bool) -> App:
         ack=just_ack, lazy=[handle_cancel_mcp_oauth_action]
     )
 
-    if use_slack_language:
+    if use_slack_locale:
         app.middleware(set_locale)
     return app
 

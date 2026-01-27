@@ -3,7 +3,7 @@
 ## Usage
 
 1. Create a Python module with your tools.
-2. Set your module name in the environment variable `LITELLM_TOOLS_MODULE_NAME`.
+2. Set your module name in the environment variable `TOOLS_MODULE_NAME`.
 3. Run Collmbo.
 4. Send a message in Slack that triggers tool execution.
 
@@ -16,8 +16,8 @@ $ cat env
 SLACK_APP_TOKEN=xapp-1-...
 SLACK_BOT_TOKEN=xoxb-...
 OPENAI_API_KEY=sk-...
-LITELLM_MODEL=gpt-5.2
-LITELLM_TOOLS_MODULE_NAME=examples.tools
+LLM_MODEL=gpt-5.2
+TOOLS_MODULE_NAME=examples.tools
 
 $ docker run -it --env-file ./env -v ./examples:/app/examples ghcr.io/enechange/collmbo:latest
 ```

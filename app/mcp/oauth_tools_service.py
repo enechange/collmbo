@@ -8,7 +8,7 @@ from mcp.client.streamable_http import streamablehttp_client
 from strands.tools.mcp.mcp_client import MCPClient
 from strands.types.exceptions import MCPClientInitializationError
 
-from app.env import LITELLM_MODEL
+from app.env import LLM_MODEL
 from app.mcp.config_service import get_oauth_server, get_oauth_server_index
 from app.mcp.oauth_tools_logic import create_bearer_auth_headers, is_session_not_expired
 from app.mcp.tools_logic import transform_mcp_spec_to_classic_tool
@@ -216,7 +216,7 @@ async def fetch_mcp_oauth_tools(
             mcp_spec=tool_spec,
             auth_type="user_federation",
             server_index=server_index,
-            model=LITELLM_MODEL,
+            model=LLM_MODEL,
         )
         tools.append(classic_tool)
 

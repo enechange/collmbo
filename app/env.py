@@ -3,8 +3,76 @@ This module loads and exposes environment variables used by the app.
 """
 
 import os
+import warnings
+from typing import overload
 
-DEFAULT_SYSTEM_TEXT = """
+# Mapping of deprecated environment variable names to their new names
+DEPRECATED_ENV_VARS: dict[str, str] = {
+    "LITELLM_MODEL": "LLM_MODEL",
+    "LITELLM_TIMEOUT_SECONDS": "LLM_TIMEOUT_SECONDS",
+    "LITELLM_TEMPERATURE": "LLM_TEMPERATURE",
+    "LITELLM_MAX_TOKENS": "LLM_MAX_TOKENS",
+    "LITELLM_TOOLS_MODULE_NAME": "TOOLS_MODULE_NAME",
+    "LITELLM_SYSTEM_TEXT": "SYSTEM_PROMPT_TEMPLATE",
+    "USE_SLACK_LANGUAGE": "USE_SLACK_LOCALE",
+    "TRANSLATE_MARKDOWN": "SLACK_FORMATTING_ENABLED",
+    "IMAGE_FILE_ACCESS_ENABLED": "IMAGE_INPUT_ENABLED",
+    "PDF_FILE_ACCESS_ENABLED": "PDF_INPUT_ENABLED",
+}
+
+
+@overload
+def get_env(new_name: str, default: str) -> str: ...
+
+
+@overload
+def get_env(new_name: str, default: int) -> int: ...
+
+
+@overload
+def get_env(new_name: str, default: float) -> float: ...
+
+
+@overload
+def get_env(new_name: str, default: None = None) -> str | None: ...
+
+
+def get_env(
+    new_name: str, default: str | int | float | None = None
+) -> str | int | float | None:
+    """
+    Get an environment variable with deprecation warning support.
+
+    If a deprecated name is set and the new name is not, warns and returns the old value.
+    Returns the value converted to the same type as the default parameter.
+    """
+
+    def convert(value: str) -> str | int | float:
+        if isinstance(default, int):
+            return int(value)
+        if isinstance(default, float):
+            return float(value)
+        return value
+
+    new_value = os.environ.get(new_name)
+    if new_value is not None:
+        return convert(new_value)
+
+    for old_name, mapped_new_name in DEPRECATED_ENV_VARS.items():
+        if mapped_new_name == new_name:
+            old_value = os.environ.get(old_name)
+            if old_value is not None:
+                warnings.warn(
+                    f"{old_name} is deprecated, use {new_name} instead",
+                    stacklevel=2,
+                )
+                return convert(old_value)
+
+    return default
+
+
+# LLM
+DEFAULT_SYSTEM_PROMPT_TEMPLATE = """
 You are a bot in a slack chat room. You might receive messages from multiple people.
 Format bold text *like this*, italic text _like this_ and strikethrough text ~like this~.
 Slack user IDs match the regex `<@U.*?>`.
@@ -12,81 +80,46 @@ Your Slack user ID is <@{bot_user_id}>.
 Each message has the author's Slack user ID prepended, like the regex `^<@U.*?>: ` followed by the message text.
 Only mention users (e.g., `<@U12345>`) when you are explicitly instructed to do so. Otherwise, do not mention users.
 """
-SYSTEM_TEXT = os.environ.get("LITELLM_SYSTEM_TEXT", DEFAULT_SYSTEM_TEXT)
-
-DEFAULT_LITELLM_TIMEOUT_SECONDS = 30
-LITELLM_TIMEOUT_SECONDS = int(
-    os.environ.get("LITELLM_TIMEOUT_SECONDS", DEFAULT_LITELLM_TIMEOUT_SECONDS)
+SYSTEM_PROMPT_TEMPLATE = get_env(
+    "SYSTEM_PROMPT_TEMPLATE", DEFAULT_SYSTEM_PROMPT_TEMPLATE
 )
+LLM_MODEL = get_env("LLM_MODEL", "gpt-5.2")
+LLM_TIMEOUT_SECONDS = get_env("LLM_TIMEOUT_SECONDS", 30)
+LLM_TEMPERATURE = get_env("LLM_TEMPERATURE", 1.0)
+LLM_MAX_TOKENS = get_env("LLM_MAX_TOKENS", 2048)
 
-DEFAULT_LITELLM_MODEL = "gpt-5.2"
-LITELLM_MODEL = os.environ.get("LITELLM_MODEL", DEFAULT_LITELLM_MODEL)
+# LiteLLM
+LITELLM_CALLBACK_MODULE_NAME = get_env("LITELLM_CALLBACK_MODULE_NAME")
+LITELLM_DROP_PARAMS = get_env("LITELLM_DROP_PARAMS")
 
-DEFAULT_LITELLM_TEMPERATURE = 1
-LITELLM_TEMPERATURE = float(
-    os.environ.get("LITELLM_TEMPERATURE", DEFAULT_LITELLM_TEMPERATURE)
-)
+# Slack
+SLACK_APP_LOG_LEVEL = get_env("SLACK_APP_LOG_LEVEL", "DEBUG")
+SLACK_UPDATE_TEXT_BUFFER_SIZE = get_env("SLACK_UPDATE_TEXT_BUFFER_SIZE", 20)
+SLACK_LOADING_CHARACTER = get_env("SLACK_LOADING_CHARACTER", " ... :writing_hand:")
+USE_SLACK_LOCALE = get_env("USE_SLACK_LOCALE", "true") == "true"
+SLACK_FORMATTING_ENABLED = get_env("SLACK_FORMATTING_ENABLED", "false") == "true"
 
-DEFAULT_LITELLM_MAX_TOKENS = 2048
-LITELLM_MAX_TOKENS = int(
-    os.environ.get("LITELLM_MAX_TOKENS", DEFAULT_LITELLM_MAX_TOKENS)
-)
+# Input
+IMAGE_INPUT_ENABLED = get_env("IMAGE_INPUT_ENABLED", "false") == "true"
+PDF_INPUT_ENABLED = get_env("PDF_INPUT_ENABLED", "false") == "true"
 
-DEFAULT_LITELLM_TOOLS_MODULE_NAME = None
-LITELLM_TOOLS_MODULE_NAME = os.environ.get(
-    "LITELLM_TOOLS_MODULE_NAME", DEFAULT_LITELLM_TOOLS_MODULE_NAME
-)
+# Tools
+TOOLS_MODULE_NAME = get_env("TOOLS_MODULE_NAME")
 
-DEFAULT_LITELLM_CALLBACK_MODULE_NAME = None
-LITELLM_CALLBACK_MODULE_NAME = os.environ.get(
-    "LITELLM_CALLBACK_MODULE_NAME", DEFAULT_LITELLM_CALLBACK_MODULE_NAME
-)
+# Prompt caching
+PROMPT_CACHING_ENABLED = get_env("PROMPT_CACHING_ENABLED", "false") == "true"
+PROMPT_CACHING_TTL = get_env("PROMPT_CACHING_TTL")
 
-DEFAULT_LITELLM_DROP_PARAMS = None
-LITELLM_DROP_PARAMS = os.environ.get("LITELLM_DROP_PARAMS", DEFAULT_LITELLM_DROP_PARAMS)
-
-DEFAULT_SLACK_UPDATE_TEXT_BUFFER_SIZE = 20
-SLACK_UPDATE_TEXT_BUFFER_SIZE = int(
-    os.environ.get(
-        "SLACK_UPDATE_TEXT_BUFFER_SIZE", DEFAULT_SLACK_UPDATE_TEXT_BUFFER_SIZE
-    )
-)
-
-DEFAULT_SLACK_LOADING_CHARACTER = " ... :writing_hand:"
-SLACK_LOADING_CHARACTER = os.environ.get(
-    "SLACK_LOADING_CHARACTER", DEFAULT_SLACK_LOADING_CHARACTER
-)
-
-USE_SLACK_LANGUAGE = os.environ.get("USE_SLACK_LANGUAGE", "true") == "true"
-
-SLACK_APP_LOG_LEVEL = os.environ.get("SLACK_APP_LOG_LEVEL", "DEBUG")
-
-TRANSLATE_MARKDOWN = os.environ.get("TRANSLATE_MARKDOWN", "false") == "true"
-
-REDACTION_ENABLED = os.environ.get("REDACTION_ENABLED", "false") == "true"
-
-IMAGE_FILE_ACCESS_ENABLED = (
-    os.environ.get("IMAGE_FILE_ACCESS_ENABLED", "false") == "true"
-)
-
-PDF_FILE_ACCESS_ENABLED = os.environ.get("PDF_FILE_ACCESS_ENABLED", "false") == "true"
-
-PROMPT_CACHING_ENABLED = os.environ.get("PROMPT_CACHING_ENABLED", "false") == "true"
-PROMPT_CACHING_TTL = os.environ.get("PROMPT_CACHING_TTL")
-
-# Redaction patterns
-#
-REDACT_EMAIL_PATTERN = os.environ.get(
+# Redaction
+REDACTION_ENABLED = get_env("REDACTION_ENABLED", "false") == "true"
+REDACT_EMAIL_PATTERN = get_env(
     "REDACT_EMAIL_PATTERN", r"\b[A-Za-z0-9.*%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b"
 )
-REDACT_PHONE_PATTERN = os.environ.get(
+REDACT_PHONE_PATTERN = get_env(
     "REDACT_PHONE_PATTERN", r"\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b"
 )
-REDACT_CREDIT_CARD_PATTERN = os.environ.get(
+REDACT_CREDIT_CARD_PATTERN = get_env(
     "REDACT_CREDIT_CARD_PATTERN", r"\b\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}\b"
 )
-REDACT_SSN_PATTERN = os.environ.get(
-    "REDACT_SSN_PATTERN", r"\b\d{3}[- ]?\d{2}[- ]?\d{4}\b"
-)
-# For REDACT_USER_DEFINED_PATTERN, the default will never match anything
-REDACT_USER_DEFINED_PATTERN = os.environ.get("REDACT_USER_DEFINED_PATTERN", r"(?!)")
+REDACT_SSN_PATTERN = get_env("REDACT_SSN_PATTERN", r"\b\d{3}[- ]?\d{2}[- ]?\d{4}\b")
+REDACT_USER_DEFINED_PATTERN = get_env("REDACT_USER_DEFINED_PATTERN", r"(?!)")

@@ -2,15 +2,15 @@
 
 ## Usage
 
-To enable Slack-friendly formatting, set the environment variable `TRANSLATE_MARKDOWN` to `true`.
+To enable Slack-friendly formatting, set the environment variable `SLACK_FORMATTING_ENABLED` to `true`.
 
 ```sh
 $ cat env
 SLACK_APP_TOKEN=xapp-1-...
 SLACK_BOT_TOKEN=xoxb-...
 OPENAI_API_KEY=sk-...
-LITELLM_MODEL=gpt-5.2
-TRANSLATE_MARKDOWN=true
+LLM_MODEL=gpt-5.2
+SLACK_FORMATTING_ENABLED=true
 
 $ docker run -it --env-file ./env ghcr.io/enechange/collmbo:latest
 ```
