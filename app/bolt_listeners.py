@@ -22,6 +22,7 @@ from app.env import (
     LITELLM_TIMEOUT_SECONDS,
     PDF_FILE_ACCESS_ENABLED,
     PROMPT_CACHING_ENABLED,
+    PROMPT_CACHING_TTL,
     REDACT_CREDIT_CARD_PATTERN,
     REDACT_EMAIL_PATTERN,
     REDACT_PHONE_PATTERN,
@@ -269,6 +270,7 @@ def build_messages(
         bot_user_id=context.bot_user_id,
         translate_markdown=TRANSLATE_MARKDOWN,
         prompt_caching_enabled=PROMPT_CACHING_ENABLED,
+        prompt_caching_ttl=PROMPT_CACHING_TTL,
     )
     replies = get_replies(
         client=client,
@@ -285,6 +287,7 @@ def build_messages(
     maybe_set_cache_points(
         messages=messages,
         prompt_caching_enabled=PROMPT_CACHING_ENABLED,
+        prompt_caching_ttl=PROMPT_CACHING_TTL,
     )
     return messages
 

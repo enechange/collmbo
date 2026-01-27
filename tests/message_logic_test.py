@@ -83,13 +83,14 @@ def test_filter_replies_after_last_marker(replies, bot_user_id, marker_text, exp
 
 
 @pytest.mark.parametrize(
-    "template, bot_user_id, translate_markdown, prompt_caching_enabled, expected",
+    "template, bot_user_id, translate_markdown, prompt_caching_enabled, prompt_caching_ttl, expected",
     [
         (
             "Hello, {bot_user_id}",
             "U12345",
             False,
             False,
+            None,
             {"role": "system", "content": [{"type": "text", "text": "Hello, U12345"}]},
         ),
         (
@@ -97,6 +98,7 @@ def test_filter_replies_after_last_marker(replies, bot_user_id, marker_text, exp
             "U12345",
             True,
             False,
+            None,
             {
                 "role": "system",
                 "content": [{"type": "text", "text": "**Hello**, U12345!"}],
@@ -107,6 +109,7 @@ def test_filter_replies_after_last_marker(replies, bot_user_id, marker_text, exp
             "U67890",
             True,
             True,
+            None,
             {
                 "role": "system",
                 "content": [
@@ -123,6 +126,7 @@ def test_filter_replies_after_last_marker(replies, bot_user_id, marker_text, exp
             None,
             False,
             True,
+            None,
             {
                 "role": "system",
                 "content": [
@@ -139,6 +143,7 @@ def test_filter_replies_after_last_marker(replies, bot_user_id, marker_text, exp
             "U00000",
             True,
             False,
+            None,
             {
                 "role": "system",
                 "content": [
@@ -149,13 +154,39 @@ def test_filter_replies_after_last_marker(replies, bot_user_id, marker_text, exp
                 ],
             },
         ),
+        (
+            "Hello, {bot_user_id}",
+            "U12345",
+            False,
+            True,
+            "1h",
+            {
+                "role": "system",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": "Hello, U12345",
+                        "cache_control": {"type": "ephemeral", "ttl": "1h"},
+                    }
+                ],
+            },
+        ),
     ],
 )
 def test_build_system_message(
-    template, bot_user_id, translate_markdown, prompt_caching_enabled, expected
+    template,
+    bot_user_id,
+    translate_markdown,
+    prompt_caching_enabled,
+    prompt_caching_ttl,
+    expected,
 ):
     result = build_system_message(
-        template, bot_user_id, translate_markdown, prompt_caching_enabled
+        template,
+        bot_user_id,
+        translate_markdown,
+        prompt_caching_enabled,
+        prompt_caching_ttl,
     )
 
     assert result == expected
@@ -471,10 +502,11 @@ def test_build_slack_user_prefixed_text(reply, text, expected):
 
 
 @pytest.mark.parametrize(
-    "prompt_caching_enabled, input_messages, expected_messages",
+    "prompt_caching_enabled, prompt_caching_ttl, input_messages, expected_messages",
     [
         (
             False,
+            None,
             [
                 {"role": "user", "content": [{"type": "text", "text": "a"}]},
                 {"role": "user", "content": [{"type": "text", "text": "b"}]},
@@ -488,6 +520,7 @@ def test_build_slack_user_prefixed_text(reply, text, expected):
         ),
         (
             True,
+            None,
             [
                 {"role": "user", "content": [{"type": "text", "text": "a"}]},
             ],
@@ -497,6 +530,7 @@ def test_build_slack_user_prefixed_text(reply, text, expected):
         ),
         (
             True,
+            None,
             [
                 {"role": "user", "content": [{"type": "text", "text": "a"}]},
                 {"role": "user", "content": [{"type": "text", "text": "b"}]},
@@ -526,6 +560,7 @@ def test_build_slack_user_prefixed_text(reply, text, expected):
         ),
         (
             True,
+            None,
             [
                 {"role": "user", "content": [{"type": "text", "text": "a"}]},
                 {"role": "user", "content": [{"type": "text", "text": "b"}]},
@@ -557,6 +592,7 @@ def test_build_slack_user_prefixed_text(reply, text, expected):
         ),
         (
             True,
+            None,
             [
                 {"role": "user", "content": [{"type": "text", "text": "x"}]},
                 {"role": "assistant", "content": "hi"},
@@ -588,6 +624,7 @@ def test_build_slack_user_prefixed_text(reply, text, expected):
         ),
         (
             True,
+            None,
             [
                 {"role": "user", "content": [{"type": "text", "text": "a"}]},
                 {"role": "assistant", "content": "ignored"},
@@ -619,12 +656,42 @@ def test_build_slack_user_prefixed_text(reply, text, expected):
                 },
             ],
         ),
+        (
+            True,
+            "1h",
+            [
+                {"role": "user", "content": [{"type": "text", "text": "a"}]},
+                {"role": "user", "content": [{"type": "text", "text": "b"}]},
+            ],
+            [
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "a",
+                            "cache_control": {"type": "ephemeral", "ttl": "1h"},
+                        }
+                    ],
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "b",
+                            "cache_control": {"type": "ephemeral", "ttl": "1h"},
+                        }
+                    ],
+                },
+            ],
+        ),
     ],
 )
 def test_maybe_set_cache_points(
-    prompt_caching_enabled, input_messages, expected_messages
+    prompt_caching_enabled, prompt_caching_ttl, input_messages, expected_messages
 ):
-    maybe_set_cache_points(input_messages, prompt_caching_enabled)
+    maybe_set_cache_points(input_messages, prompt_caching_enabled, prompt_caching_ttl)
 
     assert input_messages == expected_messages
 
