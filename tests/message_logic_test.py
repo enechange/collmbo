@@ -83,7 +83,7 @@ def test_filter_replies_after_last_marker(replies, bot_user_id, marker_text, exp
 
 
 @pytest.mark.parametrize(
-    "template, bot_user_id, translate_markdown, prompt_caching_enabled, prompt_caching_ttl, expected",
+    "template, bot_user_id, slack_formatting_enabled, prompt_caching_enabled, prompt_caching_ttl, expected",
     [
         (
             "Hello, {bot_user_id}",
@@ -176,7 +176,7 @@ def test_filter_replies_after_last_marker(replies, bot_user_id, marker_text, exp
 def test_build_system_message(
     template,
     bot_user_id,
-    translate_markdown,
+    slack_formatting_enabled,
     prompt_caching_enabled,
     prompt_caching_ttl,
     expected,
@@ -184,7 +184,7 @@ def test_build_system_message(
     result = build_system_message(
         template,
         bot_user_id,
-        translate_markdown,
+        slack_formatting_enabled,
         prompt_caching_enabled,
         prompt_caching_ttl,
     )
@@ -400,7 +400,7 @@ def test_unescape_slack_formatting(content, expected):
 
 
 @pytest.mark.parametrize(
-    "content, translate_markdown, expected",
+    "content, slack_formatting_enabled, expected",
     [
         (
             "Sentence with *bold text*, _italic text_ and ~strikethrough text~.",
@@ -481,8 +481,8 @@ else:
         ),
     ],
 )
-def test_maybe_slack_to_markdown(content, translate_markdown, expected):
-    result = maybe_slack_to_markdown(content, translate_markdown)
+def test_maybe_slack_to_markdown(content, slack_formatting_enabled, expected):
+    result = maybe_slack_to_markdown(content, slack_formatting_enabled)
 
     assert result == expected
 

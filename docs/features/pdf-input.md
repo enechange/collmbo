@@ -2,8 +2,8 @@
 
 ## Usage
 
-1. Set a model that supports PDF input in the environment variable `LITELLM_MODEL`.
-2. Set `true` in the environment variable `PDF_FILE_ACCESS_ENABLED`.
+1. Set a model that supports PDF input in the environment variable `LLM_MODEL`.
+2. Set `true` in the environment variable `PDF_INPUT_ENABLED`.
 3. Run Collmbo.
 4. Upload your PDF(s) and send a message in Slack.
 
@@ -12,8 +12,8 @@ $ cat env
 SLACK_APP_TOKEN=xapp-1-...
 SLACK_BOT_TOKEN=xoxb-...
 OPENAI_API_KEY=sk-...
-LITELLM_MODEL=bedrock/anthropic.claude-3-5-sonnet-20241022-v2:0
-PDF_FILE_ACCESS_ENABLED=true
+LLM_MODEL=bedrock/anthropic.claude-3-5-sonnet-20241022-v2:0
+PDF_INPUT_ENABLED=true
 
 $ docker run -it --env-file ./env ghcr.io/enechange/collmbo:latest
 ```

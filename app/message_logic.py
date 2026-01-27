@@ -56,9 +56,9 @@ def filter_replies_after_last_marker(
 
 
 def build_system_message(
-    system_text_template: str,
+    system_prompt_template: str,
     bot_user_id: str | None,
-    translate_markdown: bool,
+    slack_formatting_enabled: bool,
     prompt_caching_enabled: bool,
     prompt_caching_ttl: str | None = None,
 ) -> dict:
@@ -66,17 +66,17 @@ def build_system_message(
     Build the system message for the bot.
 
     Args:
-        - system_text_template (str): The template for the system message.
+        - system_prompt_template (str): The template for the system prompt.
         - bot_user_id (Optional[str]): The bot's user ID.
-        - translate_markdown (bool): Flag indicating whether to convert Slack mrkdwn to Markdown.
+        - slack_formatting_enabled (bool): Flag indicating whether to convert Slack mrkdwn to Markdown.
         - prompt_caching_enabled (bool): Flag indicating if prompt caching is enabled.
         - prompt_caching_ttl (Optional[str]): TTL for prompt caching (e.g., "5m", "1h").
 
     Returns:
         - dict: The system message as a dictionary with "role" and "content" keys.
     """
-    system_text = system_text_template.format(bot_user_id=bot_user_id)
-    system_text = maybe_slack_to_markdown(system_text, translate_markdown)
+    system_text = system_prompt_template.format(bot_user_id=bot_user_id)
+    system_text = maybe_slack_to_markdown(system_text, slack_formatting_enabled)
     content: list[dict[str, str | dict]] = [
         {
             "type": "text",
@@ -234,7 +234,7 @@ def unescape_slack_formatting(content: str) -> str:
     return content.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&")
 
 
-def maybe_slack_to_markdown(content: str, translate_markdown: bool) -> str:
+def maybe_slack_to_markdown(content: str, slack_formatting_enabled: bool) -> str:
     """
     Convert Slack mrkdwn to Markdown format.
 
@@ -242,12 +242,12 @@ def maybe_slack_to_markdown(content: str, translate_markdown: bool) -> str:
 
     Args:
         content (str): The input string in Slack mrkdwn format.
-        translate_markdown (bool): Flag indicating whether to perform the conversion.
+        slack_formatting_enabled (bool): Flag indicating whether to perform the conversion.
 
     Returns:
         str: The converted string in Markdown format.
     """
-    if not translate_markdown:
+    if not slack_formatting_enabled:
         return content
 
     # Split the input string into parts based on code blocks and inline code

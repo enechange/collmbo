@@ -9,7 +9,7 @@ from types import ModuleType
 
 from litellm.types.utils import ChatCompletionMessageToolCall, Message
 
-from app.env import LITELLM_TOOLS_MODULE_NAME
+from app.env import TOOLS_MODULE_NAME
 from app.mcp.config_service import get_no_auth_servers
 from app.mcp.no_auth_tools_service import (
     get_no_auth_mcp_tools,
@@ -36,7 +36,7 @@ def get_classic_tools() -> list[dict]:
     """
     global classic_tools
     if classic_tools is None:
-        classic_tools = load_classic_tools(LITELLM_TOOLS_MODULE_NAME)
+        classic_tools = load_classic_tools(TOOLS_MODULE_NAME)
     return classic_tools
 
 
@@ -128,8 +128,8 @@ def process_tool_call(
         logging.warning("Skipped tool call with empty name: %s", tool_call)
         return
 
-    if not is_mcp_tool_name(tool_name) and LITELLM_TOOLS_MODULE_NAME is not None:
-        tools_module = import_module(LITELLM_TOOLS_MODULE_NAME)
+    if not is_mcp_tool_name(tool_name) and TOOLS_MODULE_NAME is not None:
+        tools_module = import_module(TOOLS_MODULE_NAME)
         tool_response = process_classic_tool_call(
             tools_module=tools_module,
             tool_name=tool_name,

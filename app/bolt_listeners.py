@@ -18,9 +18,9 @@ from app.bolt_logic import (
     is_post_mentioned,
 )
 from app.env import (
-    IMAGE_FILE_ACCESS_ENABLED,
-    LITELLM_TIMEOUT_SECONDS,
-    PDF_FILE_ACCESS_ENABLED,
+    IMAGE_INPUT_ENABLED,
+    LLM_TIMEOUT_SECONDS,
+    PDF_INPUT_ENABLED,
     PROMPT_CACHING_ENABLED,
     PROMPT_CACHING_TTL,
     REDACT_CREDIT_CARD_PATTERN,
@@ -29,8 +29,8 @@ from app.env import (
     REDACT_SSN_PATTERN,
     REDACT_USER_DEFINED_PATTERN,
     REDACTION_ENABLED,
-    SYSTEM_TEXT,
-    TRANSLATE_MARKDOWN,
+    SLACK_FORMATTING_ENABLED,
+    SYSTEM_PROMPT_TEMPLATE,
 )
 from app.home_tab_logic import (
     extract_cancel_server_index,
@@ -64,7 +64,7 @@ from app.translation_service import translate
 LOADING_TEXT = ":hourglass_flowing_sand: Wait a second, please ..."
 TIMEOUT_ERROR_MESSAGE = (
     f":warning: Apologies! It seems that the AI didn't respond within the "
-    f"{LITELLM_TIMEOUT_SECONDS}-second timeframe. Please try your request again later. "
+    f"{LLM_TIMEOUT_SECONDS}-second timeframe. Please try your request again later. "
     "If you wish to extend the timeout limit, you may consider deploying this app with "
     "customized settings on your infrastructure. :bow:"
 )
@@ -142,7 +142,7 @@ def respond_to_new_post(
             messages=messages,
             loading_text=loading_text,
             wip_reply=wip_reply,
-            timeout_seconds=LITELLM_TIMEOUT_SECONDS,
+            timeout_seconds=LLM_TIMEOUT_SECONDS,
         )
     except (Timeout, TimeoutError):
         handle_timeout_error(
@@ -266,9 +266,9 @@ def build_messages(
         list[dict]: A list of messages representing the conversation history.
     """
     system_message = build_system_message(
-        system_text_template=SYSTEM_TEXT,
+        system_prompt_template=SYSTEM_PROMPT_TEMPLATE,
         bot_user_id=context.bot_user_id,
-        translate_markdown=TRANSLATE_MARKDOWN,
+        slack_formatting_enabled=SLACK_FORMATTING_ENABLED,
         prompt_caching_enabled=PROMPT_CACHING_ENABLED,
         prompt_caching_ttl=PROMPT_CACHING_TTL,
     )
@@ -409,7 +409,7 @@ def convert_replies_to_messages(
             redaction_enabled=REDACTION_ENABLED,
         )
         text = unescape_slack_formatting(text)
-        text = maybe_slack_to_markdown(text, TRANSLATE_MARKDOWN)
+        text = maybe_slack_to_markdown(text, SLACK_FORMATTING_ENABLED)
         text = build_slack_user_prefixed_text(reply, text)
 
         if reply["user"] == context.bot_user_id:
@@ -419,7 +419,7 @@ def convert_replies_to_messages(
         content = [{"type": "text", "text": text}]
         if (
             reply.get("bot_id") is None
-            and IMAGE_FILE_ACCESS_ENABLED
+            and IMAGE_INPUT_ENABLED
             and has_read_files_scope(context.authorize_result)
         ):
             if context.bot_token is None:
@@ -433,7 +433,7 @@ def convert_replies_to_messages(
         if (
             used_pdf_slots < MAX_PDF_SLOTS
             and reply.get("bot_id") is None
-            and PDF_FILE_ACCESS_ENABLED
+            and PDF_INPUT_ENABLED
             and has_read_files_scope(context.authorize_result)
         ):
             if context.bot_token is None:
