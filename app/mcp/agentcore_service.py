@@ -225,6 +225,7 @@ async def initiate_oauth_flow_with_callback(
             oauth2Flow="USER_FEDERATION",
             workloadIdentityToken=identity_token,
             customState=agentcore_user_id_without_last8,
+            resourceOauth2ReturnUrl=callback_url,
         ).get("accessToken", None),
         user_id=user_id,
         server_name=server_name,
