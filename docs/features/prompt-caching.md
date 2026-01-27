@@ -19,6 +19,24 @@ When enabled, cache breakpoints will automatically be added to **the two most re
 
 Currently, this feature is only supported by [models supported by LiteLLM for prompt caching](https://docs.litellm.ai/docs/completion/prompt_caching), such as **Anthropic Claude and Amazon Bedrock models** (e.g., Claude, Amazon Nova).
 
+## Cache TTL
+
+For models that support custom cache TTL, you can specify it via `PROMPT_CACHING_TTL`:
+
+```sh
+PROMPT_CACHING_ENABLED=true
+PROMPT_CACHING_TTL=1h
+```
+
+When set, the TTL value is added to `cache_control`:
+
+```json
+"cache_control": {
+    "type": "ephemeral",
+    "ttl": "1h"
+}
+```
+
 ## Checking cache usage
 
 If you want to check whether prompt caching was used, look at the `cache_read_input_tokens` field in the model response.

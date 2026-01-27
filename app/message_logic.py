@@ -60,6 +60,7 @@ def build_system_message(
     bot_user_id: str | None,
     translate_markdown: bool,
     prompt_caching_enabled: bool,
+    prompt_caching_ttl: str | None = None,
 ) -> dict:
     """
     Build the system message for the bot.
@@ -69,6 +70,7 @@ def build_system_message(
         - bot_user_id (Optional[str]): The bot's user ID.
         - translate_markdown (bool): Flag indicating whether to convert Slack mrkdwn to Markdown.
         - prompt_caching_enabled (bool): Flag indicating if prompt caching is enabled.
+        - prompt_caching_ttl (Optional[str]): TTL for prompt caching (e.g., "5m", "1h").
 
     Returns:
         - dict: The system message as a dictionary with "role" and "content" keys.
@@ -82,7 +84,10 @@ def build_system_message(
         }
     ]
     if prompt_caching_enabled:
-        content[0]["cache_control"] = {"type": "ephemeral"}
+        cache_control: dict[str, str] = {"type": "ephemeral"}
+        if prompt_caching_ttl:
+            cache_control["ttl"] = prompt_caching_ttl
+        content[0]["cache_control"] = cache_control
     return {
         "role": "system",
         "content": content,
@@ -280,14 +285,15 @@ def build_slack_user_prefixed_text(reply: dict, text: str) -> str:
 def maybe_set_cache_points(
     messages: list[dict],
     prompt_caching_enabled: bool,
+    prompt_caching_ttl: str | None = None,
 ) -> None:
     """
     Set cache points in user messages if certain conditions are met.
 
     Args:
         messages (list[dict]): The list of messages.
-        total_tokens (int): The total number of tokens.
         prompt_caching_enabled (bool): Flag indicating if prompt caching is enabled.
+        prompt_caching_ttl (Optional[str]): TTL for prompt caching (e.g., "5m", "1h").
 
     Returns:
         None
@@ -297,11 +303,14 @@ def maybe_set_cache_points(
         and len([m for m in messages if m.get("role") == "user"]) >= 2
     ):
         return
+    cache_control: dict[str, str] = {"type": "ephemeral"}
+    if prompt_caching_ttl:
+        cache_control["ttl"] = prompt_caching_ttl
     user_messages_found = 0
     for message in reversed(messages):  # pragma: no branch
         if message.get("role") != "user":
             continue
-        message["content"][-1]["cache_control"] = {"type": "ephemeral"}
+        message["content"][-1]["cache_control"] = cache_control
         user_messages_found += 1
         if user_messages_found >= 2:
             break
