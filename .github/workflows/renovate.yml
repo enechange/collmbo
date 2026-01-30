@@ -33,7 +33,7 @@ jobs:
           permission-workflows: write
 
       - name: Run Renovate
-        uses: renovatebot/github-action@5d135bbcab142c127d2ac8936b22db8cca182fe3 # v45.0.2
+        uses: renovatebot/github-action@98c8f1b0835e163b9fdfc7c86dff40dadc7162ee # v45.0.3
         with:
           configurationFile: .github/renovate.json
           token: ${{ steps.app-token.outputs.token }}
