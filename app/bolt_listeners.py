@@ -144,7 +144,7 @@ def respond_to_new_post(
             wip_reply=wip_reply,
             timeout_seconds=LLM_TIMEOUT_SECONDS,
         )
-    except (Timeout, TimeoutError):
+    except Timeout, TimeoutError:
         handle_timeout_error(
             client=client,
             channel_id=context.channel_id,
