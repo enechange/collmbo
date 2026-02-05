@@ -15,7 +15,7 @@ dependencies = [
     "bedrock-agentcore==1.2.1",
     "mcp==1.26.0",
     "strands-agents==1.25.0",
-    "strands-agents-tools==0.2.19",
+    "strands-agents-tools==0.2.20",
 ]
 
 [project.optional-dependencies]
