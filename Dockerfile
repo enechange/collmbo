@@ -1,4 +1,4 @@
-FROM dhi.io/python:3.14.3-debian13-dev@sha256:0e33d44383fdb4b8a090e1bb6f3ef5678e861d3e9dec84948834c566d24c5dc8 AS builder
+FROM dhi.io/python:3.14.3-debian13-dev@sha256:c753969eff0a566f02fc13164d69fb55f6a90b72dc2bd6e071129f42fd59c28a AS builder
 WORKDIR /build/
 COPY --from=ghcr.io/astral-sh/uv:0.10.0@sha256:78a7ff97cd27b7124a5f3c2aefe146170793c56a1e03321dd31a289f6d82a04f /uv /usr/local/bin/uv
 COPY pyproject.toml uv.lock /build/
