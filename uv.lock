@@ -299,7 +299,7 @@ requires-dist = [
     { name = "pytest", marker = "extra == 'dev'", specifier = "==9.0.2" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = "==7.0.0" },
     { name = "slack-bolt", specifier = "==1.27.0" },
-    { name = "slack-sdk", specifier = "==3.39.0" },
+    { name = "slack-sdk", specifier = "==3.40.0" },
     { name = "strands-agents", specifier = "==1.25.0" },
     { name = "strands-agents-tools", specifier = "==0.2.20" },
 ]
@@ -1425,11 +1425,11 @@ wheels = [
 
 [[package]]
 name = "slack-sdk"
-version = "3.39.0"
+version = "3.40.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/b6/dd/645f3eb93fce38eadbb649e85684730b1fc3906c2674ca59bddc2ca2bd2e/slack_sdk-3.39.0.tar.gz", hash = "sha256:6a56be10dc155c436ff658c6b776e1c082e29eae6a771fccf8b0a235822bbcb1", size = 247207, upload-time = "2025-11-20T15:27:57.556Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/45/f7/4a968e1d091569ff7f6da929695728c3eacf10afcda7c424b70df2c3700b/slack_sdk-3.40.0.tar.gz", hash = "sha256:87b9a79d1d6e19a2b1877727a0ec6f016d82d30a6a410389fba87c221c99f10e", size = 249478, upload-time = "2026-02-10T22:12:13.445Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ef/1f/32bcf088e535c1870b1a1f2e3b916129c66fdfe565a793316317241d41e5/slack_sdk-3.39.0-py2.py3-none-any.whl", hash = "sha256:b1556b2f5b8b12b94e5ea3f56c4f2c7f04462e4e1013d325c5764ff118044fa8", size = 309850, upload-time = "2025-11-20T15:27:55.729Z" },
+    { url = "https://files.pythonhosted.org/packages/27/72/428fb01a1043ddbb3f66297363406d6e69ddff5ad89c4d07945a3753a235/slack_sdk-3.40.0-py2.py3-none-any.whl", hash = "sha256:f2bada5ed3adb10a01e154e90db01d6d8938d0461b5790c12bcb807b2d28bbe2", size = 312786, upload-time = "2026-02-10T22:12:11.258Z" },
 ]
 
 [[package]]
