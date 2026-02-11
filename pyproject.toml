@@ -10,7 +10,7 @@ dependencies = [
     "slack-bolt==1.27.0",
     "slack-sdk==3.40.0",
     "litellm==1.81.10",
-    "pillow==12.1.0",
+    "pillow==12.1.1",
     "httpx==0.28.1",
     "bedrock-agentcore==1.2.1",
     "mcp==1.26.0",
