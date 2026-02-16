@@ -3,11 +3,17 @@
   "extends": [
     "config:best-practices"
   ],
+  "hostRules": [
+    {
+      "hostType": "python-version",
+      "abortIgnoreStatusCodes": [429]
+    }
+  ],
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
-        "^\\.mise\\.toml$"
+      "managerFilePatterns": [
+        "/^\\.mise\\.toml$/"
       ],
       "matchStrings": [
         "python\\s*=\\s*\"(?<currentValue>[^\"]+)\""
