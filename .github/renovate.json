@@ -3,19 +3,8 @@
   "extends": [
     "config:best-practices"
   ],
-  "customManagers": [
-    {
-      "customType": "regex",
-      "fileMatch": [
-        "^\\.mise\\.toml$"
-      ],
-      "matchStrings": [
-        "python\\s*=\\s*\"(?<currentValue>[^\"]+)\""
-      ],
-      "depNameTemplate": "python/cpython",
-      "datasourceTemplate": "github-tags",
-      "extractVersionTemplate": "^v(?<version>.*)$"
-    }
+  "ignoreDeps": [
+    "python"
   ],
   "labels": [
     "dependencies"
@@ -50,16 +39,6 @@
         "pep621"
       ],
       "groupName": "python-dependencies"
-    },
-    {
-      "description": "Disable default mise Python detection to avoid python.org API rate limiting",
-      "matchManagers": [
-        "mise"
-      ],
-      "matchPackageNames": [
-        "python"
-      ],
-      "enabled": false
     },
     {
       "description": "Group mise tool updates",
