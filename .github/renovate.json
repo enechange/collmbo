@@ -55,6 +55,16 @@
       "groupName": "python-dependencies"
     },
     {
+      "description": "Disable Docker digest pinning for .mise.toml Python version",
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchPackageNames": [
+        "dhi.io/python"
+      ],
+      "pinDigests": false
+    },
+    {
       "description": "Group mise tool updates",
       "matchManagers": [
         "mise"
