@@ -2,9 +2,6 @@ version = 1
 revision = 3
 requires-python = ">=3.14"
 
-[manifest]
-overrides = [{ name = "pillow", specifier = ">=12.0.0" }]
-
 [[package]]
 name = "aiohappyeyeballs"
 version = "2.6.1"
