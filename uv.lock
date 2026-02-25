@@ -166,6 +166,7 @@ dependencies = [
     { name = "jmespath" },
     { name = "s3transfer" },
 ]
+sdist = { url = "https://files.pythonhosted.org/packages/fe/dc/990222f8c0cd7453c03410bc8b367ccb35ae01d9642ff1f79231cd3f3d8f/boto3-1.42.56.tar.gz", hash = "sha256:8b0779431b349582f4d61b55a2858b943d5295f4b5de62e2d669fdbbcda96bd6", size = 112814, upload-time = "2026-02-24T20:28:51.825Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/59/bb/a7fd6f4f38cf0f6cd91c152442cbe5b5f270275a60a5c7147ae5560f2f25/boto3-1.42.56-py3-none-any.whl", hash = "sha256:e09f91170b19e0ecd5e514321d99323be3e91a58dfa73fd58cf73b7b8b179c84", size = 140556, upload-time = "2026-02-24T20:28:49.815Z" },
 ]
@@ -298,7 +299,7 @@ requires-dist = [
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = "==7.0.0" },
     { name = "slack-bolt", specifier = "==1.27.0" },
     { name = "slack-sdk", specifier = "==3.40.1" },
-    { name = "strands-agents", specifier = "==1.27.0" },
+    { name = "strands-agents", specifier = "==1.28.0" },
     { name = "strands-agents-tools", specifier = "==0.2.21" },
 ]
 provides-extras = ["dev"]
@@ -1501,7 +1502,7 @@ wheels = [
 
 [[package]]
 name = "strands-agents"
-version = "1.27.0"
+version = "1.28.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "boto3" },
@@ -1516,9 +1517,9 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "watchdog" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b9/54/bf0910a1c40feacaedcf5d30840be990eabd09eff5375fa40525ba530c8d/strands_agents-1.27.0.tar.gz", hash = "sha256:84d0b670e534d7c281104a22035c10de8d43e9ad8ee589bde16f54a8387b2c56", size = 712878, upload-time = "2026-02-19T17:18:23.327Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/9e/27/9c1c114a83844f9e27fe0312bfdad27c753b922f123512669997f8af47e3/strands_agents-1.28.0.tar.gz", hash = "sha256:0372d8f75d694f3230b0035867455ef31c74f6d9c708985e41f646a1a0b29f7e", size = 717116, upload-time = "2026-02-25T19:36:46.959Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6a/ca/d5c269f83929bdc753dce3c6091a1671e50268769b0ace009264424bf165/strands_agents-1.27.0-py3-none-any.whl", hash = "sha256:d9012515a7b4f324a600cacc539e837a51b3f7fe21da7efe1764186ade3be498", size = 351988, upload-time = "2026-02-19T17:18:19Z" },
+    { url = "https://files.pythonhosted.org/packages/b3/98/f4f87500251f1cab2bd9a0d271852d6d8796635ea8d287b5c51a12316d58/strands_agents-1.28.0-py3-none-any.whl", hash = "sha256:e4c238811949b4f8d31ea9df03a74a57afa5f1728a23bf1ddbf8703f34addc6b", size = 355636, upload-time = "2026-02-25T19:36:45.075Z" },
 ]
 
 [[package]]
