@@ -20,6 +20,9 @@
       "extractVersionTemplate": "^(?<version>\\d+\\.\\d+\\.\\d+)"
     }
   ],
+  "constraints": {
+    "uv": "0.10.6"
+  },
   "labels": [
     "dependencies"
   ],
@@ -29,7 +32,7 @@
   "lockFileMaintenance": {
     "enabled": true,
     "schedule": [
-      "before 4am on monday"
+      "at any time"
     ]
   },
   "packageRules": [
