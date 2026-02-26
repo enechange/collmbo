@@ -84,10 +84,10 @@
       "matchManagers": [
         "mise"
       ],
-      "excludePackageNames": [
-        "uv"
-      ],
-      "groupName": "mise-tools"
+      "groupName": "mise-tools",
+      "matchPackageNames": [
+        "!uv"
+      ]
     },
     {
       "description": "Group uv updates (mise and constraints)",
