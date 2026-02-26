@@ -18,6 +18,18 @@
       "depNameTemplate": "dhi.io/python",
       "datasourceTemplate": "docker",
       "extractVersionTemplate": "^(?<version>\\d+\\.\\d+\\.\\d+)"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.github/renovate\\.json$/"
+      ],
+      "matchStrings": [
+        "\"constraints\":\\s*\\{[^}]*\"uv\":\\s*\"(?<currentValue>[^\"]+)\""
+      ],
+      "depNameTemplate": "astral-sh/uv",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v?(?<version>.+)$"
     }
   ],
   "constraints": {
@@ -68,11 +80,25 @@
       "pinDigests": false
     },
     {
-      "description": "Group mise tool updates",
+      "description": "Group mise tool updates (except uv)",
       "matchManagers": [
         "mise"
       ],
+      "excludePackageNames": [
+        "uv"
+      ],
       "groupName": "mise-tools"
+    },
+    {
+      "description": "Group uv updates (mise and constraints)",
+      "matchPackageNames": [
+        "uv",
+        "astral-sh/uv"
+      ],
+      "excludeManagers": [
+        "dockerfile"
+      ],
+      "groupName": "uv"
     },
     {
       "description": "Automerge minor, patch, digest, and lockFileMaintenance updates",
