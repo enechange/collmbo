@@ -91,12 +91,13 @@
     },
     {
       "description": "Group uv updates (mise and constraints)",
+      "matchManagers": [
+        "mise",
+        "custom.regex"
+      ],
       "matchPackageNames": [
         "uv",
         "astral-sh/uv"
-      ],
-      "excludeManagers": [
-        "dockerfile"
       ],
       "groupName": "uv"
     },
