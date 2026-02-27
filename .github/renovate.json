@@ -60,10 +60,10 @@
       "matchManagers": [
         "dockerfile"
       ],
-      "excludePackageNames": [
-        "dhi.io/python"
-      ],
-      "groupName": "docker"
+      "groupName": "docker",
+      "matchPackageNames": [
+        "!dhi.io/python"
+      ]
     },
     {
       "description": "Group Python runtime version updates",
