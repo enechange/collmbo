@@ -60,7 +60,21 @@
       "matchManagers": [
         "dockerfile"
       ],
+      "excludePackageNames": [
+        "dhi.io/python"
+      ],
       "groupName": "docker"
+    },
+    {
+      "description": "Group Python runtime version updates",
+      "matchManagers": [
+        "dockerfile",
+        "custom.regex"
+      ],
+      "matchPackageNames": [
+        "dhi.io/python"
+      ],
+      "groupName": "python"
     },
     {
       "description": "Group Python dependencies",
