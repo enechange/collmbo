@@ -56,16 +56,6 @@
       "groupName": "github-actions"
     },
     {
-      "description": "Group Docker image updates",
-      "matchManagers": [
-        "dockerfile"
-      ],
-      "groupName": "docker",
-      "matchPackageNames": [
-        "!dhi.io/python"
-      ]
-    },
-    {
       "description": "Group Python runtime version updates",
       "matchManagers": [
         "dockerfile",
@@ -104,12 +94,14 @@
       ]
     },
     {
-      "description": "Group uv updates (mise and constraints)",
+      "description": "Group uv updates (Dockerfile, mise, and constraints)",
       "matchManagers": [
+        "dockerfile",
         "mise",
         "custom.regex"
       ],
       "matchPackageNames": [
+        "ghcr.io/astral-sh/uv",
         "uv",
         "astral-sh/uv"
       ],
