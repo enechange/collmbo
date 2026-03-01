@@ -44,7 +44,7 @@
   "lockFileMaintenance": {
     "enabled": true,
     "schedule": [
-      "at any time"
+      "after 11pm every day"
     ]
   },
   "packageRules": [
