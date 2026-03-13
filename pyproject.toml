@@ -8,13 +8,13 @@ description = "Dependency management only"
 requires-python = ">=3.14"
 dependencies = [
     "slack-bolt==1.27.0",
-    "slack-sdk==3.40.1",
-    "litellm==1.82.0",
+    "slack-sdk==3.41.0",
+    "litellm==1.82.2",
     "pillow==12.1.1",
     "httpx==0.28.1",
-    "bedrock-agentcore==1.4.3",
+    "bedrock-agentcore==1.4.6",
     "mcp==1.26.0",
-    "strands-agents==1.29.0",
+    "strands-agents==1.30.0",
     "strands-agents-tools==0.2.22",
 ]
 
