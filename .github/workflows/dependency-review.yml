@@ -20,5 +20,6 @@ jobs:
         uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4.9.0
         with:
           comment-summary-in-pr: always
+          retry-on-snapshot-warnings: true
           license-check: false
           show-openssf-scorecard: false
