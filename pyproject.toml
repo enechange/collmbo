@@ -20,7 +20,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "pip-licenses==5.5.4",
+    "pip-licenses==5.5.5",
     "pytest==9.0.2",
     "pytest-cov==7.1.0",
 ]
