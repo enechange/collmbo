@@ -310,7 +310,7 @@ requires-dist = [
     { name = "litellm", specifier = "==1.82.6" },
     { name = "mcp", specifier = "==1.26.0" },
     { name = "pillow", specifier = "==12.1.1" },
-    { name = "pip-licenses", marker = "extra == 'dev'", specifier = "==5.5.4" },
+    { name = "pip-licenses", marker = "extra == 'dev'", specifier = "==5.5.5" },
     { name = "pytest", marker = "extra == 'dev'", specifier = "==9.0.2" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = "==7.1.0" },
     { name = "slack-bolt", specifier = "==1.27.0" },
@@ -1025,14 +1025,14 @@ wheels = [
 
 [[package]]
 name = "pip-licenses"
-version = "5.5.4"
+version = "5.5.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "prettytable" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/91/f4/f66edbc25c430d2b673eda8ac82438d32d81ca50211f672acdf7a7944168/pip_licenses-5.5.4.tar.gz", hash = "sha256:83402b0b814504bf442a93ddc3b35049395590a72f3f379728c4dc36906b4b95", size = 54546, upload-time = "2026-03-28T21:51:18.255Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/7d/18/ddd93af610a04f56a51a27095ddfe55238e1ec236f6758730a0d2c0b49f2/pip_licenses-5.5.5.tar.gz", hash = "sha256:60750c006adf7a0910347b726e8ee9fee3bc8d2e7c8307a5c4ec0776c8e2a276", size = 54955, upload-time = "2026-03-28T22:12:56.48Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2b/91/ad796e881ad8c530ab7debeafe7413a2a7c4825bafcc88fe10ad883fa3bd/pip_licenses-5.5.4-py3-none-any.whl", hash = "sha256:9326b7ac067e27dccc83775a0478c6fb7e67ca471c060d2bca10b0180da9c286", size = 23117, upload-time = "2026-03-28T21:51:16.983Z" },
+    { url = "https://files.pythonhosted.org/packages/2a/9a/6acfdb8d463eac7cdae7534d35d72237eca63f5fbafe797289d8a5fae447/pip_licenses-5.5.5-py3-none-any.whl", hash = "sha256:f4c4c6d9e6a03612cf59f29f19dc8ab54904d82e055b8e191498f2279a224e14", size = 23247, upload-time = "2026-03-28T22:12:54.89Z" },
 ]
 
 [[package]]
