@@ -1,3 +1,16 @@
+> [!IMPORTANT]
+> **This repository is no longer actively maintained.**
+>
+> Development continues at [iwamot/collmbo](https://github.com/iwamot/collmbo).
+>
+> For v11.0.0 and later versions:
+>
+> ```sh
+> docker pull ghcr.io/iwamot/collmbo:latest
+> ```
+
+---
+
 # Collmbo
 
 [![CI](https://github.com/enechange/collmbo/actions/workflows/ci.yml/badge.svg)](https://github.com/enechange/collmbo/actions/workflows/ci.yml)
